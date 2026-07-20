@@ -233,6 +233,9 @@
 	line-height: 1.4;
 }
 
+.couple-names{
+	padding-top: 1rem;
+}
 
 /* ─────────────────────────────────────────────────────
    6. CONTENEDORES DE IMAGEN
@@ -256,7 +259,7 @@
 	object-position: center top;
 	display: block;
 	border-radius: inherit;
-	opacity: 0;
+	opacity: 1;
 	transition: opacity .5s ease;
 }
 
@@ -371,4 +374,12 @@
 ───────────────────────────────────────────────────── */
 @media (max-width: 640px) {
 	.dress-grid { grid-template-columns: 1fr; }
+
+	/* Textos más grandes y legibles en móvil */
+	.event-detail .text     { font-size: 1rem; }
+	.rec-text                { font-size: 1rem; }
+	.dress-item .dress-desc  { font-size: .92rem; }
+	.dress-item .dress-title { font-size: 1.1rem; }
+	.qr-desc                 { font-size: .88rem; }
+	.qr-title                 { font-size: 1rem; }
 }

@@ -26,6 +26,9 @@
 	--color-gold:        #b08d57;   /* detalles dorados */
 	--color-gold-light:  #d4b07a;
 
+	--color-navy-glow-1: #224094;   /* fondo brillante secciones impares */
+	--color-navy-glow-2: #141f3f;
+
 	/* ── Tipografía ─────────────────────────────────── */
 	--font-display:  'Cormorant Garamond', Georgia, serif;  /* títulos */
 	--font-body:     'Shippori Mincho', 'Times New Roman', serif;  /* cuerpo */

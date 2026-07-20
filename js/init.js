@@ -15,16 +15,13 @@
 	/* ── Fecha de la boda ────────────────────────────── */
 	document.getElementById('wedding-date-display').textContent = WEDDING.weddingDateDisplay;
 
-	/* ── Saludo personalizado desde ?guest=Nombre ────── */
-	const params    = new URLSearchParams(window.location.search);
-	const guestName = params.get('guest') || params.get('invitado') || '';
-	const greetEl   = document.getElementById('guest-greeting');
-
-	if (guestName) {
-		greetEl.textContent = 'Querido/a ' + decodeURIComponent(guestName) + ',';
-	} else {
-		greetEl.textContent = 'Con todo nuestro amor,';
-	}
+	/* ── Saludo personalizado por código de invitado: ?codigo=XXXX (ver guests.json) ── */
+	const greetEl = document.getElementById('guest-greeting');
+	getGuestName().then(function (guestName) {
+		greetEl.textContent = guestName
+			? 'Querido/a ' + guestName + ','
+			: 'Con todo nuestro amor,';
+	});
 
 	/* ── Ceremonia ───────────────────────────────────── */
 	document.getElementById('ceremony-place').textContent   = WEDDING.ceremony.place;

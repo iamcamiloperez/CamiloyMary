@@ -32,8 +32,16 @@
 .section::after { overflow: hidden; }
 
 /* Fondos alternos entre secciones */
-.section:nth-child(odd)  { background-color: var(--color-paper); }
+.section:nth-child(odd) {
+	background-color: var(--color-navy-glow-1);
+	animation: section-glow 1.5s ease-in-out infinite alternate;
+}
 .section:nth-child(even) { background-color: var(--color-paper-dark); }
+
+@keyframes section-glow {
+	from { background-color: var(--color-navy-glow-1); }
+	to   { background-color: var(--color-navy-glow-2); }
+}
 
 /* El footer es el último punto de snap */
 #footer { scroll-snap-align: start; }
@@ -282,6 +290,14 @@
 	.section-inner .corner-img {
 		width: clamp(70px, 22vw, 100px);
 	}
+
+	/* Textos más grandes y legibles en móvil */
+	.section-label            { font-size: .8rem; }
+	.section-subtitle         { font-size: 1rem; }
+	.section-body             { font-size: 1rem; }
+	#guest-greeting           { font-size: 1.05rem; }
+	.countdown-label          { font-size: .68rem; }
+	.wedding-date-box .date-sub { font-size: .8rem; }
 
 	.couple-names {
 		flex-direction: column;
