@@ -1,0 +1,299 @@
+/* ════════════════════════════════════════════════════
+   SECTIONS
+   ──────────────────────────────────────────────────
+   Layout de secciones, marco interior (section-inner),
+   imágenes de esquina y tipografía de cada sección.
+   También incluye los estilos específicos de cada
+   sección que no son reutilizables como componentes.
+════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────
+   1. CONTENEDOR DE SECCIÓN
+───────────────────────────────────────────────────── */
+.section {
+	min-height: 100svh;
+	height: 100svh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	position: relative;
+	padding: 68px var(--section-padding) 1.2rem;
+	overflow-y: auto;
+	overflow-x: hidden;
+	box-sizing: border-box;
+	scroll-snap-align: start;
+}
+
+.section > .rose-deco { pointer-events: none; }
+
+.section::before,
+.section::after { overflow: hidden; }
+
+/* Fondos alternos entre secciones */
+.section:nth-child(odd)  { background-color: var(--color-paper); }
+.section:nth-child(even) { background-color: var(--color-paper-dark); }
+
+/* El footer es el último punto de snap */
+#footer { scroll-snap-align: start; }
+
+
+/* ─────────────────────────────────────────────────────
+   2. MARCO INTERIOR (section-inner)
+───────────────────────────────────────────────────── */
+.section-inner {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	max-width: 680px;
+	text-align: center;
+	padding: clamp(2rem, 5vw, 3.5rem) clamp(1.8rem, 5vw, 3.5rem) clamp(1.4rem, 3vw, 2.5rem);
+	border-radius: 24px;
+	background: rgba(247, 241, 232, 0.82);
+	backdrop-filter: blur(2px);
+	box-shadow: 0 8px 32px rgba(58,45,34,.1);
+	overflow: visible;
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+}
+
+/* Fondo con textura papel suave */
+.section-inner::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: 24px;
+	background-image:
+		linear-gradient(rgba(255,255,255,.12), rgba(255,255,255,.12)),
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+	pointer-events: none;
+	z-index: 0;
+}
+
+/* Todo el contenido del marco por encima de la textura */
+.section-inner > * { position: relative; z-index: 2; }
+
+
+/* ─────────────────────────────────────────────────────
+   3. IMÁGENES DE ESQUINA (rosas.png)
+───────────────────────────────────────────────────── */
+.section-inner .corner-img {
+	position: absolute;
+	width: clamp(90px, 16vw, 160px);
+	pointer-events: none;
+	z-index: 10;
+}
+
+.section-inner .corner-img.tl { top: -2px;    left: -2px;  }
+.section-inner .corner-img.tr { top: -2px;    right: -2px; }
+.section-inner .corner-img.bl { bottom: -2px; left: -2px;  }
+.section-inner .corner-img.br { bottom: -2px; right: -2px; }
+.section-inner .corner-img.b  { bottom: -2px; left: 50%; transform: translateX(-50%); }
+
+
+/* ─────────────────────────────────────────────────────
+   4. TIPOGRAFÍA DE SECCIONES (transversal)
+───────────────────────────────────────────────────── */
+.section-label {
+	font-family: var(--font-body);
+	font-size: clamp(.6rem, 1.4vw, .75rem);
+	letter-spacing: .22em;
+	text-transform: uppercase;
+	color: var(--color-gold);
+	margin-bottom: .35rem;
+}
+
+.section-title {
+	font-family: var(--font-display);
+	font-size: clamp(1.7rem, 6vw, 3.4rem);
+	font-style: italic;
+	font-weight: 600;
+	color: var(--color-ink);
+	line-height: 1.1;
+	margin-bottom: .35rem;
+}
+
+.section-subtitle {
+	font-family: var(--font-accent);
+	font-size: clamp(.8rem, 2vw, 1rem);
+	font-style: italic;
+	color: var(--color-ink-soft);
+	margin-bottom: .8rem;
+}
+
+.section-divider {
+	display: flex;
+	align-items: center;
+	gap: .6rem;
+	margin: .5rem auto;
+	max-width: 280px;
+}
+
+.section-divider::before,
+.section-divider::after {
+	content: '';
+	flex: 1;
+	height: 1px;
+	background: linear-gradient(to right, transparent, var(--color-gold-light), transparent);
+}
+
+.divider-icon { color: var(--color-rose); font-size: .9rem; }
+
+.section-body {
+	font-family: var(--font-body);
+	font-size: clamp(.82rem, 1.8vw, .96rem);
+	line-height: 1.7;
+	color: var(--color-ink-soft);
+}
+
+
+/* ─────────────────────────────────────────────────────
+   5. SECCIÓN 1 – GUARDA LA FECHA
+───────────────────────────────────────────────────── */
+#save-the-date .section-title {
+	font-size: clamp(2rem, 8vw, 4.5rem);
+	color: var(--color-blue-deep);
+}
+
+/* Nombres de los novios */
+.couple-names {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(.4rem, 1.5vw, 1.2rem);
+	font-family: var(--font-script);
+	font-size: clamp(2.6rem, 9vw, 5.5rem);
+	color: var(--color-ink);
+	line-height: 1.1;
+}
+
+.couple-names .heart {
+	color: var(--color-rose);
+	font-size: .6em;
+	animation: heartbeat 1.6s infinite ease-in-out;
+}
+
+@keyframes heartbeat {
+	0%,100% { transform: scale(1); }
+	14%      { transform: scale(1.25); }
+	28%      { transform: scale(1); }
+	42%      { transform: scale(1.18); }
+}
+
+/* Caja de la fecha */
+.wedding-date-box {
+	display: inline-block;
+	margin: .6rem auto;
+	padding: .55rem 1.6rem;
+	border: 1.5px solid var(--color-gold-light);
+	background: rgba(255,255,255,.35);
+	border-radius: 1px;
+}
+
+.wedding-date-box .date-main {
+	font-family: var(--font-display);
+	font-size: clamp(1.1rem, 3vw, 1.6rem);
+	letter-spacing: .06em;
+	color: var(--color-blue-deep);
+}
+
+.wedding-date-box .date-sub {
+	font-family: var(--font-body);
+	font-size: .72rem;
+	letter-spacing: .18em;
+	text-transform: uppercase;
+	color: var(--color-gold);
+	margin-top: .15rem;
+}
+
+/* Saludo personalizado al invitado */
+#guest-greeting {
+	font-family: var(--font-accent);
+	font-style: italic;
+	font-size: clamp(.85rem, 2vw, 1.05rem);
+	color: var(--color-rose);
+	margin-bottom: .3rem;
+	min-height: 1.4em;
+}
+
+/* Countdown */
+.countdown {
+	display: flex;
+	gap: clamp(.4rem, 1.5vw, 1rem);
+	justify-content: center;
+	margin-top: .8rem;
+	flex-wrap: wrap;
+}
+
+.countdown-unit {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 44px;
+}
+
+.countdown-num {
+	font-family: var(--font-display);
+	font-size: clamp(1.5rem, 4vw, 2.4rem);
+	font-weight: 600;
+	color: var(--color-blue-deep);
+	line-height: 1;
+}
+
+.countdown-label {
+	font-family: var(--font-body);
+	font-size: .58rem;
+	letter-spacing: .18em;
+	text-transform: uppercase;
+	color: var(--color-gold);
+	margin-top: .15rem;
+}
+
+.countdown-sep {
+	font-family: var(--font-display);
+	font-size: 1.6rem;
+	color: var(--color-rose-light);
+	align-self: flex-start;
+	padding-top: .1rem;
+}
+
+
+/* ─────────────────────────────────────────────────────
+   6. DECORATIVO DE ROSAS
+───────────────────────────────────────────────────── */
+.rose-deco {
+	position: absolute;
+	pointer-events: none;
+	opacity: .18;
+	z-index: 1;
+}
+
+
+/* ─────────────────────────────────────────────────────
+   7. RESPONSIVE
+───────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+	.section-inner {
+		padding: clamp(2.2rem, 6vw, 3rem) clamp(1.4rem, 5vw, 2rem) clamp(1.2rem, 4vw, 2rem);
+	}
+
+	.section-inner .corner-img {
+		width: clamp(70px, 22vw, 100px);
+	}
+
+	.couple-names {
+		flex-direction: column;
+		gap: .2rem;
+	}
+
+	.couple-names .heart { font-size: .5em; }
+
+	.section-img-hero {
+		width: calc(100% + 2 * clamp(1.4rem, 5vw, 2rem));
+		margin-left:  calc(-1 * clamp(1.4rem, 5vw, 2rem));
+		margin-right: calc(-1 * clamp(1.4rem, 5vw, 2rem));
+		margin-top:   calc(-1 * clamp(2.2rem, 6vw, 3rem));
+	}
+}

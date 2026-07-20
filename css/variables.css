@@ -1,0 +1,37 @@
+/* ════════════════════════════════════════════════════
+   VARIABLES GLOBALES
+   ──────────────────────────────────────────────────
+   Edita aquí para cambiar la paleta de colores,
+   tipografía y espaciado de toda la invitación.
+════════════════════════════════════════════════════ */
+
+:root {
+
+	/* ── Paleta de colores ──────────────────────────── */
+	--color-paper:       #f5efe6;   /* fondo principal (crema cálido) */
+	--color-paper-dark:  #ede3d5;   /* fondo alterno de secciones */
+	--color-ink:         #3a2d22;   /* texto principal (sepia oscuro) */
+	--color-ink-soft:    #5c4a38;   /* texto secundario */
+
+	--color-blue-soft:   #7b9db8;
+	--color-blue-deep:   #4a6f8a;   /* acento principal */
+
+	--color-olive:       #7a8c5c;
+	--color-olive-dark:  #5a6a40;
+
+	--color-rose:        #d4798a;   /* acento femenino / corazón */
+	--color-rose-light:  #e8a8b5;
+	--color-rose-pale:   #f2d0d8;
+
+	--color-gold:        #b08d57;   /* detalles dorados */
+	--color-gold-light:  #d4b07a;
+
+	/* ── Tipografía ─────────────────────────────────── */
+	--font-display:  'Cormorant Garamond', Georgia, serif;  /* títulos */
+	--font-body:     'Shippori Mincho', 'Times New Roman', serif;  /* cuerpo */
+	--font-accent:   'IM Fell English', Georgia, serif;     /* subtítulos en cursiva */
+	--font-script:   'Great Vibes', cursive;                /* nombres de los novios */
+
+	/* ── Espaciado ──────────────────────────────────── */
+	--section-padding: clamp(1rem, 3vw, 2.5rem);
+}

@@ -1,0 +1,925 @@
+
+    /* ═══════════════════════════════════════════════════
+       1. VARIABLES GLOBALES – PALETA DE COLORES
+    ════════════════════════════════════════════════════ */
+    :root {
+      /* Colores principales */
+      --color-paper:       #f5efe6;
+      --color-paper-dark:  #ede3d5;
+      --color-ink:         #3a2d22;
+      --color-ink-soft:    #5c4a38;
+      --color-blue-soft:   #7b9db8;
+      --color-blue-deep:   #4a6f8a;
+      --color-olive:       #7a8c5c;
+      --color-olive-dark:  #5a6a40;
+      --color-rose:        #d4798a;
+      --color-rose-light:  #e8a8b5;
+      --color-rose-pale:   #f2d0d8;
+      --color-gold:        #b08d57;
+      --color-gold-light:  #d4b07a;
+
+      /* Tipografía */
+      --font-display:  'Cormorant Garamond', Georgia, serif;
+      --font-body:     'Shippori Mincho', 'Times New Roman', serif;
+      --font-accent:   'IM Fell English', Georgia, serif;
+      --font-script:   'Great Vibes', cursive;
+
+      /* Ruta imagen marco de rosas */
+      --frame-img: url('./assets/rosas.png');
+
+      /* Espacios */
+      --section-padding: clamp(1rem, 3vw, 2.5rem);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       2. RESET & BASE
+    ════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      /* Scroll snap: una sección a la vez */
+      scroll-snap-type: y mandatory;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--color-paper);
+      color: var(--color-ink);
+      overflow-x: hidden;
+      /* El scroll principal vive en el body */
+      height: 100svh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      cursor: default;
+    }
+
+    /* Textura de papel */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: .5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+
+    /* ═══════════════════════════════════════════════════
+       3. NAVEGACIÓN DESKTOP
+    ════════════════════════════════════════════════════ */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 900;
+      background: linear-gradient(to bottom, rgba(245,239,230,.97) 80%, rgba(245,239,230,0));
+      border-bottom: 1px solid rgba(176,141,87,.25);
+      padding: .6rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: box-shadow .3s;
+    }
+
+    #nav.scrolled { box-shadow: 0 2px 16px rgba(58,45,34,.12); }
+
+    .nav-brand {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--color-rose);
+      letter-spacing: .04em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.6rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--color-ink-soft);
+      position: relative;
+      padding-bottom: 2px;
+      transition: color .25s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--color-rose);
+      transition: width .3s;
+    }
+
+    .nav-links a:hover { color: var(--color-rose); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* Hamburger */
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      background: none;
+      border: none;
+    }
+
+    #hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--color-ink-soft);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+
+    #hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #hamburger.open span:nth-child(2) { opacity: 0; }
+    #hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Menú móvil */
+    #mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      position: fixed;
+      top: 52px; left: 0; right: 0;
+      background: rgba(245,239,230,.98);
+      border-bottom: 1px solid rgba(176,141,87,.3);
+      z-index: 890;
+      transform: translateY(-110%);
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+      box-shadow: 0 8px 24px rgba(58,45,34,.1);
+    }
+
+    #mobile-menu.open { transform: translateY(0); }
+
+    #mobile-menu a {
+      display: block;
+      padding: .9rem 1.8rem;
+      font-family: var(--font-body);
+      font-size: .9rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--color-ink-soft);
+      border-bottom: 1px solid rgba(176,141,87,.15);
+      transition: background .2s, color .2s;
+    }
+
+    #mobile-menu a:hover {
+      background: var(--color-rose-pale);
+      color: var(--color-rose);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       4. SECCIONES PRINCIPALES
+    ════════════════════════════════════════════════════ */
+    .section {
+      min-height: 100svh;
+      height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      padding: 68px var(--section-padding) 1.2rem;
+      overflow-y: auto;
+      overflow-x: hidden;
+      box-sizing: border-box;
+      scroll-snap-align: start;
+    }
+
+    /* El clip de los decorativos de esquina se hace en un wrapper interno */
+    .section > .rose-deco { pointer-events: none; }
+    /* Clip solo para los pseudo-elementos decorativos, no para las flechas */
+    .section::before,
+    .section::after { overflow: hidden; }
+
+    /* Alternar fondos entre secciones */
+    .section:nth-child(odd)  { background-color: var(--color-paper); }
+    .section:nth-child(even) { background-color: var(--color-paper-dark); }
+
+    /* El footer no participa en el snap */
+    #footer { scroll-snap-align: none; }
+
+    /* ── Decoración: esquinas eliminadas (ahora usa rosas.png en .section-inner) ── */
+
+    /* ── Marco interior – Wedding Frame con rosas.png ── */
+    .section-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 680px;
+      text-align: center;
+      /* Padding generoso para que el contenido no quede sobre las rosas */
+      padding: clamp(2rem, 5vw, 3.5rem) clamp(1.8rem, 5vw, 3.5rem) clamp(1.4rem, 3vw, 2.5rem);
+      border-radius: 24px;
+      background: rgba(247, 241, 232, 0.82);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 8px 32px rgba(58,45,34,.1);
+      /* Asegura que las esquinas estén encima */
+      overflow: visible;
+      display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+    }
+
+    /* Fondo con textura papel suave */
+    .section-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      background-image:
+        linear-gradient(rgba(255,255,255,.12), rgba(255,255,255,.12)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Todo el contenido dentro del marco por encima de la textura */
+    .section-inner > * { position: relative; z-index: 2; }
+
+    /* ── Las 4 esquinas con rosas.png ── */
+    .section-inner .corner-img {
+      position: absolute;
+      width: clamp(90px, 16vw, 160px);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .section-inner .corner-img.tl { top: -2px;    left: -2px;  }
+    .section-inner .corner-img.tr { top: -2px;    right: -2px; }
+    .section-inner .corner-img.bl { bottom: -2px; left: -2px;  }
+    .section-inner .corner-img.br { bottom: -2px; right: -2px; }
+    .section-inner .corner-img.b  { bottom: -2px; left: 50%;   transform: translateX(-50%); }
+
+    /* ── Tipografía de secciones ── */
+    .section-label {
+      font-family: var(--font-body);
+      font-size: clamp(.6rem, 1.4vw, .75rem);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: .35rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.7rem, 6vw, 3.4rem);
+      font-style: italic;
+      font-weight: 600;
+      color: var(--color-ink);
+      line-height: 1.1;
+      margin-bottom: .35rem;
+    }
+
+    .section-subtitle {
+      font-family: var(--font-accent);
+      font-size: clamp(.8rem, 2vw, 1rem);
+      font-style: italic;
+      color: var(--color-ink-soft);
+      margin-bottom: .8rem;
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin: .5rem auto;
+      max-width: 280px;
+    }
+
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--color-gold-light), transparent);
+    }
+
+    .divider-icon { color: var(--color-rose); font-size: .9rem; }
+
+    .section-body {
+      font-family: var(--font-body);
+      font-size: clamp(.82rem, 1.8vw, .96rem);
+      line-height: 1.7;
+      color: var(--color-ink-soft);
+    }
+
+    /* ── Botones ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      margin-top: 1.4rem;
+      padding: .65rem 1.6rem;
+      border: 1.5px solid var(--color-rose);
+      border-radius: 1px;
+      font-family: var(--font-body);
+      font-size: .8rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--color-rose);
+      background: transparent;
+      cursor: pointer;
+      transition: background .25s, color .25s, transform .2s;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: var(--color-rose);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .btn-olive {
+      border-color: var(--color-olive);
+      color: var(--color-olive);
+    }
+
+    .btn-olive:hover { background: var(--color-olive); color: #fff; }
+
+    .btn-blue {
+      border-color: var(--color-blue-deep);
+      color: var(--color-blue-deep);
+    }
+
+    .btn-blue:hover { background: var(--color-blue-deep); color: #fff; }
+
+#save-the-date .section-title {
+      font-size: clamp(2rem, 8vw, 4.5rem);
+      color: var(--color-blue-deep);
+    }
+
+    .couple-names {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(.4rem, 1.5vw, 1.2rem);
+      font-family: var(--font-script);        /* Great Vibes */
+      font-size: clamp(2.6rem, 9vw, 5.5rem);
+      color: var(--color-ink);
+      line-height: 1.1;
+    }
+
+    .couple-names .heart {
+      color: var(--color-rose);
+      font-size: .6em;
+      animation: heartbeat 1.6s infinite ease-in-out;
+    }
+
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14%      { transform: scale(1.25); }
+      28%      { transform: scale(1); }
+      42%      { transform: scale(1.18); }
+    }
+
+    .wedding-date-box {
+      display: inline-block;
+      margin: .6rem auto;
+      padding: .55rem 1.6rem;
+      border: 1.5px solid var(--color-gold-light);
+      background: rgba(255,255,255,.35);
+      border-radius: 1px;
+    }
+
+    .wedding-date-box .date-main {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      letter-spacing: .06em;
+      color: var(--color-blue-deep);
+    }
+
+    .wedding-date-box .date-sub {
+      font-family: var(--font-body);
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-top: .15rem;
+    }
+
+    #guest-greeting {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: clamp(.85rem, 2vw, 1.05rem);
+      color: var(--color-rose);
+      margin-bottom: .3rem;
+      min-height: 1.4em;
+    }
+
+    .countdown {
+      display: flex;
+      gap: clamp(.4rem, 1.5vw, 1rem);
+      justify-content: center;
+      margin-top: .8rem;
+      flex-wrap: wrap;
+    }
+
+    .countdown-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 44px;
+    }
+
+    .countdown-num {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-weight: 600;
+      color: var(--color-blue-deep);
+      line-height: 1;
+    }
+
+    .countdown-label {
+      font-family: var(--font-body);
+      font-size: .58rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-top: .15rem;
+    }
+
+    .countdown-sep {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--color-rose-light);
+      align-self: flex-start;
+      padding-top: .1rem;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       6. SECCIÓN 2 – CEREMONIA
+    ════════════════════════════════════════════════════ */
+    .event-card {
+      background: rgba(255,255,255,.3);
+      border: 1px solid rgba(176,141,87,.25);
+      border-radius: 2px;
+      padding: clamp(1.2rem, 3vw, 2rem);
+      margin-top: 1rem;
+    }
+
+    .event-icon {
+      font-size: 2rem;
+      margin-bottom: .6rem;
+      display: block;
+    }
+
+    .event-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: .7rem;
+      margin: .5rem 0;
+      text-align: left;
+    }
+
+    .event-detail .icon { color: var(--color-gold); min-width: 1.2em; }
+
+    .event-detail .text {
+      font-family: var(--font-body);
+      font-size: clamp(.85rem, 2vw, .95rem);
+      color: var(--color-ink-soft);
+      line-height: 1.5;
+    }
+
+    .event-detail .text strong {
+      display: block;
+      font-weight: 600;
+      color: var(--color-ink);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       7. SECCIÓN 5 – RECOMENDACIONES
+    ════════════════════════════════════════════════════ */
+    .rec-list {
+      text-align: left;
+      margin-top: 1rem;
+    }
+
+    .rec-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .8rem;
+      padding: .75rem 0;
+      border-bottom: 1px dashed rgba(176,141,87,.2);
+    }
+
+    .rec-item:last-child { border-bottom: none; }
+
+    .rec-num {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.4rem;
+      color: var(--color-rose-light);
+      line-height: 1.1;
+      min-width: 1.4rem;
+    }
+
+    .rec-text {
+      font-family: var(--font-body);
+      font-size: clamp(.83rem, 2vw, .93rem);
+      color: var(--color-ink-soft);
+      line-height: 1.65;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       8. SECCIÓN 6 – DRESS CODE
+    ════════════════════════════════════════════════════ */
+    .dress-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .dress-item {
+      background: rgba(255,255,255,.3);
+      border: 1px solid rgba(176,141,87,.22);
+      border-radius: 2px;
+      padding: 1rem .8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .dress-item .dress-icon { font-size: 2rem; }
+
+    .dress-item .dress-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--color-ink);
+    }
+
+    .dress-item .dress-desc {
+      font-size: .78rem;
+      color: var(--color-ink-soft);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* Paleta de colores dress code */
+    .color-palette {
+      display: flex;
+      gap: .5rem;
+      justify-content: center;
+      margin-top: .6rem;
+      flex-wrap: wrap;
+    }
+
+    .color-swatch {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.6);
+      box-shadow: 0 1px 4px rgba(0,0,0,.15);
+      title: attr(title);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       9. SECCIÓN 7 – QRs
+    ════════════════════════════════════════════════════ */
+    .qr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .qr-card {
+      background: rgba(255,255,255,.35);
+      border: 1px solid rgba(176,141,87,.25);
+      border-radius: 2px;
+      padding: 1.2rem .8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .6rem;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .qr-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(58,45,34,.1);
+    }
+
+    .qr-placeholder {
+      width: 80px; height: 80px;
+      border: 1.5px dashed var(--color-gold-light);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gold-light);
+      font-size: 2rem;
+    }
+
+    .qr-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: .95rem;
+      color: var(--color-ink);
+    }
+
+    .qr-desc {
+      font-size: .73rem;
+      color: var(--color-ink-soft);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       10. FOOTER
+    ════════════════════════════════════════════════════ */
+    #footer {
+      background: var(--color-ink);
+      color: var(--color-paper-dark);
+      padding: 2.5rem var(--section-padding);
+      text-align: center;
+    }
+
+    .footer-names {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.6rem;
+      color: var(--color-rose-light);
+      margin-bottom: .6rem;
+    }
+
+    .footer-contacts {
+      display: flex;
+      justify-content: center;
+      gap: 1.6rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+
+    .footer-contact {
+      font-family: var(--font-body);
+      font-size: .8rem;
+      letter-spacing: .1em;
+      color: rgba(245,239,230,.6);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .footer-made {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: .83rem;
+      color: rgba(245,239,230,.4);
+      margin-top: 1.2rem;
+    }
+
+    .footer-made .heart { color: var(--color-rose); }
+
+    /* ═══════════════════════════════════════════════════
+       11. ELEMENTOS DECORATIVOS – ROSAS SVG
+    ════════════════════════════════════════════════════ */
+    .rose-deco {
+      position: absolute;
+      pointer-events: none;
+      opacity: .18;
+      z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       12. SCROLL INDICATOR & PROGRESS
+    ════════════════════════════════════════════════════ */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--color-rose), var(--color-gold));
+      z-index: 999;
+      width: 0%;
+      transition: width .1s linear;
+    }
+
+    /* Dots navegación lateral (desktop) */
+    #section-dots {
+      position: fixed;
+      right: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+      z-index: 800;
+    }
+
+    .section-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(176,141,87,.35);
+      cursor: pointer;
+      transition: background .25s, transform .25s;
+      border: none;
+      padding: 0;
+    }
+
+    .section-dot.active {
+      background: var(--color-rose);
+      transform: scale(1.35);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       13. AUDIO TOGGLE
+    ════════════════════════════════════════════════════ */
+    #audio-toggle {
+      position: fixed;
+      bottom: 1.2rem;
+      right: 1.2rem;
+      z-index: 800;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: rgba(245,239,230,.9);
+      border: 1.5px solid var(--color-gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--color-ink-soft);
+      box-shadow: 0 2px 12px rgba(58,45,34,.12);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    #audio-toggle:hover {
+      transform: scale(1.08);
+      box-shadow: 0 4px 16px rgba(58,45,34,.18);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       14. FADE-IN ANIMACIONES
+    ════════════════════════════════════════════════════ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Delays escalonados */
+    .fade-in:nth-child(2) { transition-delay: .1s; }
+    .fade-in:nth-child(3) { transition-delay: .2s; }
+    .fade-in:nth-child(4) { transition-delay: .3s; }
+    .fade-in:nth-child(5) { transition-delay: .4s; }
+
+    /* ═══════════════════════════════════════════════════
+       15. RESPONSIVE
+    ════════════════════════════════════════════════════ */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      #hamburger { display: flex; }
+      #mobile-menu { display: flex; }
+      #section-dots { display: none; }
+      .dress-grid { grid-template-columns: 1fr; }
+      .couple-names { flex-direction: column; gap: .2rem; }
+      .couple-names .heart { font-size: .5em; }
+      /* Esquinas más pequeñas en móvil */
+      .section-inner .corner-img { width: clamp(70px, 22vw, 100px); }
+      /* Padding ajustado para que las esquinas no solapen el texto */
+      .section-inner {
+        padding: clamp(2.2rem, 6vw, 3rem) clamp(1.4rem, 5vw, 2rem) clamp(1.2rem, 4vw, 2rem);
+      }
+      .section-img-hero {
+        width: calc(100% + 2 * clamp(1.4rem, 5vw, 2rem));
+        margin-left:  calc(-1 * clamp(1.4rem, 5vw, 2rem));
+        margin-right: calc(-1 * clamp(1.4rem, 5vw, 2rem));
+        margin-top:   calc(-1 * clamp(2.2rem, 6vw, 3rem));
+      }
+    }
+
+    @media (min-width: 641px) {
+      #hamburger { display: none; }
+      #mobile-menu { display: none !important; }
+    }
+    /* ═══════════════════════════════════════════════════
+       16. CONTENEDORES DE IMAGEN POR SECCIÓN
+    ════════════════════════════════════════════════════ */
+
+    /* Wrapper común */
+    .section-img-wrap {
+      width: 100%;
+      margin: .5rem auto .7rem;
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid rgba(176,141,87,.2);
+      background: rgba(255,255,255,.2);
+    }
+
+    /* Imagen real */
+    .section-img-wrap .section-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity .5s ease;
+    }
+
+    .section-img-wrap .section-img.loaded { opacity: 1; }
+
+    /* Placeholder visible mientras no haya imagen */
+    .section-img-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .3rem;
+      padding: .9rem .8rem;
+      border: 1.5px dashed rgba(176,141,87,.4);
+      border-radius: 3px;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 8px,
+        rgba(176,141,87,.04) 8px,
+        rgba(176,141,87,.04) 16px
+      );
+    }
+
+    /* Cuando hay una <img> real, ocultar el placeholder */
+    .section-img-wrap:has(.section-img[src]:not([src=""])) .section-img-placeholder { display: none; }
+    .section-img-wrap:not(:has(.section-img[src]:not([src=""]))) .section-img { display: none; }
+
+    .img-ph-icon  { font-size: 1.4rem; opacity: .45; }
+    .img-ph-label {
+      font-family: var(--font-body);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      text-align: center;
+      line-height: 1.4;
+    }
+    .img-ph-label small { font-size: .63rem; opacity: .7; letter-spacing: .06em; }
+
+    /* Variante 16:9 (default) — altura máxima acotada */
+    .section-img-wrap:not(.section-img-circle):not(.section-img-medallion):not(.section-img-banner):not(.section-img-hero) {
+      aspect-ratio: 14/9;
+      max-height: clamp(100px, 30vh, 280px);
+    }
+
+    /* Variante hero – ancho completo del section-inner, sangra sobre el padding */
+    .section-img-hero {
+      width: calc(100% + 2 * clamp(1.8rem, 5vw, 3.5rem));
+      margin-left:  calc(-1 * clamp(1.8rem, 5vw, 3.5rem));
+      margin-right: calc(-1 * clamp(1.8rem, 5vw, 3.5rem));
+      margin-top:   calc(-1 * clamp(2rem, 5vw, 3.5rem));
+      border-radius: 24px 24px 0 0;
+      aspect-ratio: 14/9;
+      max-height: clamp(160px, 28vh, 260px);
+    }
+
+    /* Variante cuadrada centrada (asistencia) */
+    .section-img-circle {
+      aspect-ratio: 1/1;
+      max-width: min(200px, 28vh);
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 6px;
+    }
+
+    /* Variante medallón circular (Luna) */
+    .section-img-medallion {
+      aspect-ratio: 1/1;
+      max-width: min(110px, 16vh);
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 50%;
+      border: 3px solid rgba(212,121,138,.35);
+      box-shadow: 0 4px 16px rgba(212,121,138,.15);
+    }
+
+    .section-img-medallion .section-img-placeholder { border-radius: 50%; }
+
+    /* Variante banner horizontal delgado (dress code) */
+    .section-img-banner {
+      aspect-ratio: 3/1;
+      max-height: clamp(60px, 10vh, 100px);
+    }

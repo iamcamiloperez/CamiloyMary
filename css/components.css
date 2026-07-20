@@ -1,0 +1,374 @@
+/* ════════════════════════════════════════════════════
+   COMPONENTS
+   ──────────────────────────────────────────────────
+   Componentes reutilizables: botones, cards de evento,
+   listas, grids de dress code y QRs, contenedores de
+   imagen y animaciones fade-in.
+════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────
+   1. BOTONES
+───────────────────────────────────────────────────── */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: .5rem;
+	margin-top: 1.4rem;
+	padding: .65rem 1.6rem;
+	border: 1.5px solid var(--color-rose);
+	border-radius: 1px;
+	font-family: var(--font-body);
+	font-size: .8rem;
+	letter-spacing: .15em;
+	text-transform: uppercase;
+	color: var(--color-rose);
+	background: transparent;
+	cursor: pointer;
+	transition: background .25s, color .25s, transform .2s;
+	text-decoration: none;
+}
+
+.btn:hover {
+	background: var(--color-rose);
+	color: #fff;
+	transform: translateY(-2px);
+}
+
+.btn-olive {
+	border-color: var(--color-olive);
+	color: var(--color-olive);
+}
+
+.btn-olive:hover { background: var(--color-olive); color: #fff; }
+
+.btn-blue {
+	border-color: var(--color-blue-deep);
+	color: var(--color-blue-deep);
+}
+
+.btn-blue:hover { background: var(--color-blue-deep); color: #fff; }
+
+
+/* ─────────────────────────────────────────────────────
+   2. CARD DE EVENTO (ceremonia / recepción)
+───────────────────────────────────────────────────── */
+.event-card {
+	background: rgba(255,255,255,.3);
+	border: 1px solid rgba(176,141,87,.25);
+	border-radius: 2px;
+	padding: clamp(1.2rem, 3vw, 2rem);
+	margin-top: 1rem;
+}
+
+.event-icon {
+	font-size: 2rem;
+	margin-bottom: .6rem;
+	display: block;
+}
+
+.event-detail {
+	display: flex;
+	align-items: flex-start;
+	gap: .7rem;
+	margin: .5rem 0;
+	text-align: left;
+}
+
+.event-detail .icon { color: var(--color-gold); min-width: 1.2em; }
+
+.event-detail .text {
+	font-family: var(--font-body);
+	font-size: clamp(.85rem, 2vw, .95rem);
+	color: var(--color-ink-soft);
+	line-height: 1.5;
+}
+
+.event-detail .text strong {
+	display: block;
+	font-weight: 600;
+	color: var(--color-ink);
+}
+
+
+/* ─────────────────────────────────────────────────────
+   3. LISTA DE RECOMENDACIONES
+───────────────────────────────────────────────────── */
+.rec-list {
+	text-align: left;
+	margin-top: 1rem;
+}
+
+.rec-item {
+	display: flex;
+	align-items: flex-start;
+	gap: .8rem;
+	padding: .75rem 0;
+	border-bottom: 1px dashed rgba(176,141,87,.2);
+}
+
+.rec-item:last-child { border-bottom: none; }
+
+.rec-num {
+	font-family: var(--font-display);
+	font-style: italic;
+	font-size: 1.4rem;
+	color: var(--color-rose-light);
+	line-height: 1.1;
+	min-width: 1.4rem;
+}
+
+.rec-text {
+	font-family: var(--font-body);
+	font-size: clamp(.83rem, 2vw, .93rem);
+	color: var(--color-ink-soft);
+	line-height: 1.65;
+}
+
+
+/* ─────────────────────────────────────────────────────
+   4. GRID DRESS CODE
+───────────────────────────────────────────────────── */
+.dress-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+	margin-top: 1.2rem;
+}
+
+.dress-item {
+	background: rgba(255,255,255,.3);
+	border: 1px solid rgba(176,141,87,.22);
+	border-radius: 2px;
+	padding: 1rem .8rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: .4rem;
+}
+
+.dress-item .dress-icon  { font-size: 2rem; }
+
+.dress-item .dress-title {
+	font-family: var(--font-display);
+	font-size: 1.05rem;
+	font-style: italic;
+	color: var(--color-ink);
+}
+
+.dress-item .dress-desc {
+	font-size: .78rem;
+	color: var(--color-ink-soft);
+	text-align: center;
+	line-height: 1.5;
+}
+
+/* Paleta de colores */
+.color-palette {
+	display: flex;
+	gap: .5rem;
+	justify-content: center;
+	margin-top: .6rem;
+	flex-wrap: wrap;
+}
+
+.color-swatch {
+	width: 26px; height: 26px;
+	border-radius: 50%;
+	border: 2px solid rgba(255,255,255,.6);
+	box-shadow: 0 1px 4px rgba(0,0,0,.15);
+}
+
+
+/* ─────────────────────────────────────────────────────
+   5. GRID QRs / RECUERDOS
+───────────────────────────────────────────────────── */
+.qr-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+	gap: 1rem;
+	margin-top: 1.2rem;
+}
+
+.qr-card {
+	background: rgba(255,255,255,.35);
+	border: 1px solid rgba(176,141,87,.25);
+	border-radius: 2px;
+	padding: 1.2rem .8rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: .6rem;
+	cursor: pointer;
+	transition: transform .2s, box-shadow .2s;
+}
+
+.qr-card:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 8px 24px rgba(58,45,34,.1);
+}
+
+.qr-placeholder {
+	width: 80px; height: 80px;
+	border: 1.5px dashed var(--color-gold-light);
+	border-radius: 2px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-gold-light);
+	font-size: 2rem;
+}
+
+.qr-title {
+	font-family: var(--font-display);
+	font-style: italic;
+	font-size: .95rem;
+	color: var(--color-ink);
+}
+
+.qr-desc {
+	font-size: .73rem;
+	color: var(--color-ink-soft);
+	text-align: center;
+	line-height: 1.4;
+}
+
+
+/* ─────────────────────────────────────────────────────
+   6. CONTENEDORES DE IMAGEN
+───────────────────────────────────────────────────── */
+
+/* Wrapper base */
+.section-img-wrap {
+	width: 100%;
+	margin: .5rem auto .7rem;
+	border-radius: 3px;
+	overflow: hidden;
+	border: 1px solid rgba(176,141,87,.2);
+	background: rgba(255,255,255,.2);
+}
+
+/* Imagen real */
+.section-img-wrap .section-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center top;
+	display: block;
+	border-radius: inherit;
+	opacity: 0;
+	transition: opacity .5s ease;
+}
+
+.section-img-wrap .section-img.loaded { opacity: 1; }
+
+/* Placeholder mientras no haya imagen */
+.section-img-placeholder {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: .3rem;
+	padding: .9rem .8rem;
+	border: 1.5px dashed rgba(176,141,87,.4);
+	border-radius: 3px;
+	background: repeating-linear-gradient(
+		45deg,
+		transparent,
+		transparent 8px,
+		rgba(176,141,87,.04) 8px,
+		rgba(176,141,87,.04) 16px
+	);
+}
+
+/* Cuando hay imagen real, ocultar el placeholder y viceversa */
+.section-img-wrap:has(.section-img[src]:not([src=""])) .section-img-placeholder { display: none; }
+.section-img-wrap:not(:has(.section-img[src]:not([src=""]))) .section-img        { display: none; }
+
+.img-ph-icon { font-size: 1.4rem; opacity: .45; }
+
+.img-ph-label {
+	font-family: var(--font-body);
+	font-size: .68rem;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+	color: var(--color-gold);
+	text-align: center;
+	line-height: 1.4;
+}
+
+.img-ph-label small { font-size: .63rem; opacity: .7; letter-spacing: .06em; }
+
+/* Variante 16:9 (default) */
+.section-img-wrap:not(.section-img-circle):not(.section-img-medallion):not(.section-img-banner):not(.section-img-hero) {
+	aspect-ratio: 14/9;
+	max-height: clamp(100px, 30vh, 280px);
+}
+
+/* Variante hero – ancho completo (sangra sobre el padding del marco) */
+.section-img-hero {
+	width: calc(100% + 2 * clamp(1.8rem, 5vw, 3.5rem));
+	margin-left:  calc(-1 * clamp(1.8rem, 5vw, 3.5rem));
+	margin-right: calc(-1 * clamp(1.8rem, 5vw, 3.5rem));
+	margin-top:   calc(-1 * clamp(2rem, 5vw, 3.5rem));
+	border-radius: 24px 24px 0 0;
+	aspect-ratio: 14/9;
+	max-height: clamp(160px, 28vh, 260px);
+}
+
+/* Variante cuadrada centrada (asistencia) */
+.section-img-circle {
+	aspect-ratio: 1/1;
+	max-width: min(200px, 28vh);
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 6px;
+}
+
+/* Variante medallón circular (retrato) */
+.section-img-medallion {
+	aspect-ratio: 1/1;
+	max-width: min(110px, 16vh);
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 50%;
+	border: 3px solid rgba(212,121,138,.35);
+	box-shadow: 0 4px 16px rgba(212,121,138,.15);
+}
+
+.section-img-medallion .section-img-placeholder { border-radius: 50%; }
+
+/* Variante banner horizontal (dress code) */
+.section-img-banner {
+	aspect-ratio: 3/1;
+	max-height: clamp(60px, 10vh, 100px);
+}
+
+
+/* ─────────────────────────────────────────────────────
+   7. ANIMACIONES FADE-IN
+───────────────────────────────────────────────────── */
+.fade-in {
+	opacity: 0;
+	transform: translateY(18px);
+	transition: opacity .7s ease, transform .7s ease;
+}
+
+.fade-in.visible {
+	opacity: 1;
+	transform: none;
+}
+
+/* Delays escalonados por posición dentro del marco */
+.fade-in:nth-child(2) { transition-delay: .1s; }
+.fade-in:nth-child(3) { transition-delay: .2s; }
+.fade-in:nth-child(4) { transition-delay: .3s; }
+.fade-in:nth-child(5) { transition-delay: .4s; }
+
+
+/* ─────────────────────────────────────────────────────
+   8. RESPONSIVE
+───────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+	.dress-grid { grid-template-columns: 1fr; }
+}
