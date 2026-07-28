@@ -1,4 +1,4 @@
 {
-	"CAMI001": "Gabriel Fernando",
-	"CAMI002": "Juan Pablo Rodríguez"
+	"CAMI001": { "name": "Gabriel Fernando", "single": true },
+	"CAMI002": { "name": "Juan Pablo Rodríguez", "single": true }
 }

@@ -3,41 +3,371 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Camilo &amp; Maritza – Guarda la Fecha</title>
+  <title>Teaser: Camilo &amp; Maritza</title>
   <meta name="description" content="Camilo & Maritza se casan el 14 de noviembre de 2026 en Tibasosa, Boyacá. Muy pronto más detalles." />
 
   <!-- ═══════════════════════════════════════════════════
-       FUENTES (idénticas a la invitación completa)
+       FUENTES (propias de esta página teaser — ver Mockups/Mockup.png)
   ════════════════════════════════════════════════════ -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Shippori+Mincho:wght@400;600&family=IM+Fell+English:ital@0;1&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:ital,wght@0,400;0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/variables.css" />
   <link rel="stylesheet" href="./css/common.css" />
   <link rel="stylesheet" href="./css/sections.css" />
   <link rel="stylesheet" href="./css/components.css" />
 
   <style>
-    /* Ajustes puntuales solo para esta página teaser de una sola sección */
+    /* ═══════════════════════════════════════════════════
+       Ajustes puntuales solo para esta página teaser de una
+       sola sección. La paleta y tipografía de esta página son
+       propias (ver Mockups/Mockup.png) y distintas de las de
+       invitacion-completa.html, así que se redefinen aquí las
+       variables compartidas en lugar de tocar css/variables.css.
+    ════════════════════════════════════════════════════ */
     #section-dots, #nav, #mobile-menu, #hamburger, #scroll-progress { display: none !important; }
-    body { scroll-snap-type: none; }
-    .teaser-note {
+    html, body { scroll-snap-type: none; }
+    #save-the-date { height: auto; min-height: 100svh; overflow: visible; padding-top: 0; }
+
+    :root {
+      --color-paper:      #F8F1EA;
+      --color-ink:         #0F1C2E;
+      --color-ink-soft:    #26374d;
+      --color-rose:        #d16d7a;
+      --color-rose-light:  #e3a9bd;
+      --color-rose-pale:   #EBC5CD;
+      --color-gold:        #C8A86A;
+      --color-gold-light:  #ddc496;
+      --color-blue-deep:   #0F1C2E;
+      --font-display:      'Playfair Display', Georgia, serif;
+      --font-body:         'Lato', Arial, sans-serif;
+      --font-accent:       'Playfair Display', Georgia, serif;
+      --font-script:       'Great Vibes', cursive;
+    }
+
+    /* La tarjeta translúcida y el fondo navy animado de invitacion-completa.html
+       no aparecen en el mockup, que muestra un fondo crema plano y continuo. */
+    #save-the-date {
+      background: #000A19 !important;
+      animation: none !important;
+      padding: 0px !important;
+    }
+    #save-the-date .section-inner {
+      background: transparent;
+      background: var(--color-paper) !important;
+      backdrop-filter: none;
+      box-shadow: none;
+      border-radius: 0;
+      padding-bottom: 0px !important;
+    }
+    #save-the-date .section-inner::before { display: none; }
+
+    /* ── Hero + medallón monograma ─────────────────────── */
+    .ts-hero-wrap { position: relative; }
+    .ts-hero-wrap .section-img-wrap { position: relative; max-height: clamp(200px, 32vh, 320px); }
+
+    .ts-hero-fade {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 38%;
+      background: linear-gradient(to bottom, rgba(252,250,246,0) 0%, var(--color-paper) 92%);
+      pointer-events: none;
+    }
+
+    .ts-monogram {
+      position: absolute;
+      left: 50%;
+      bottom: 80px;
+      transform: translate(-50%, 50%);
+      width: clamp(70px, 18vw, 96px);
+      height: clamp(70px, 18vw, 96px);
+      border-radius: 50%;
+      background: transparent;
+      border: 1.5px solid var(--color-gold);
+      outline: 1.5px solid var(--color-gold);
+      outline-offset: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .3em;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      color: var(--color-ink);
+      box-shadow: 0 6px 18px rgba(15,28,46,.18);
+      z-index: 5;
+    }
+
+    .ts-monogram .heart { color: var(--color-rose); font-size: .7em; }
+
+  .ts-divider-line {
+    display: flex;
+    align-items: center;
+    width: 200px;
+    margin: 20px auto;
+  }
+
+  .ts-divider .line {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--color-gold));
+    margin-right: 10px;
+    margin-left: 0px;
+  }
+
+  .ts-divider .line:last-child {
+    margin-left: 10px;
+    background: linear-gradient(to left, transparent, var(--color-gold));
+  }
+
+  .hand-drawn-line {
+    width: 100px;
+    height: 10px;
+    margin: 20px auto;
+  }
+
+  .hand-drawn-line svg {
+    width: 100%;
+    height: 100%;
+  }
+
+
+    /* ── Texto guion / título ──────────────────────────── */
+    .ts-script {
+      font-family: var(--font-script);
+      font-size: clamp(2.4rem, 9vw, 3.6rem);
+      color: var(--color-rose);
+      line-height: 1;
+      margin-top: clamp(1rem, 6vw, 0rem);
+    }
+
+    .ts-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-size: clamp(2.2rem, 7vw, 3.5rem);
+      color: var(--color-ink);
+      line-height: 1.1;
+      margin-top: .2rem;
+    }
+
+    .ts-intro {
+      font-family: var(--font-body);
+      font-style: italic;
+      color: var(--color-ink);
+      font-size: clamp(1.05rem, 2.6vw, 1.25rem);
+      max-width: 34ch;
+      line-height: 1.5;
+      margin: .6rem auto .2rem;
+    }
+
+    .ts-divider {
+      top: 0.8rem;
+      color: var(--color-gold);
+      font-size: 1rem;
+      margin: 0rem auto;
+    }
+
+    /* ── Fecha ──────────────────────────────────────────── */
+    .ts-date-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(.5rem, 3vw, 1.5rem);
+      margin: 0rem auto .8rem;
+    }
+
+    .ts-date-flower {
+      width: clamp(50px, 12vw, 90px);
+      flex-shrink: 0;
+      opacity: .9;
+    }
+
+    @media (max-width: 480px) {
+      .ts-date-flower { display: none; }
+    }
+
+    .ts-daynum {
+      font-family: var(--font-display);
+      font-weight: 200;
+      font-size: clamp(3.5rem, 18vw, 6rem);
+      color: var(--color-rose);
+      line-height: .9;
+      margin-bottom: 0.5rem;
+    }
+
+    .ts-month {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: clamp(1.6rem, 6vw, 2rem);
+      color: var(--color-rose);
+      margin-top: .3rem;
+    }
+
+    .ts-year {
+      font-family: var(--font-display);
+      letter-spacing: .18em;
+      font-size: clamp(1.4rem, 3.5vw, 1.4rem);
+      color: var(--color-rose);
+      margin-top: .1rem;
+    }
+
+    .ts-location {
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: clamp(.8rem, 2.2vw, 1.25rem);
+      color: var(--color-ink-soft);
+      margin-top: .7rem;
+    }
+
+    /* ── Cuenta regresiva (reutiliza .countdown de sections.css, sólo reposicionada) ── */
+    .countdown {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Corazones (mismo glifo en todos, todos animados) ─ */
+    .ts-heart {
+      display: inline-block;
+      animation: ts-pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes ts-pulse {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.28); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ts-heart { animation: none; }
+    }
+
+    .ts-heartbeat {
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      color: var(--color-rose);
+    }
+
+    /* ── Textos principales / transiciones / acentos ───── */
+    .ts-main {
+      font-family: var(--font-body);
+      font-size: clamp(.95rem, 2.2vw, 1rem);
+      color: var(--color-ink);
+      line-height: 1.7;
+      max-width: 34ch;
+      margin: 0rem auto;
+    }
+
+    .ts-main.ts-bold { font-weight: 700; }
+
+    .ts-transition {
       font-family: var(--font-accent);
       font-style: italic;
-      font-size: clamp(.95rem, 2.4vw, 1.15rem);
-      color: var(--color-ink-soft);
+      color: var(--color-ink);
+      font-size: clamp(1rem, 2.6vw, 1.15rem);
+      margin: 0rem auto .2rem;
+    }
+
+    .ts-accent {
+      font-family: var(--font-accent);
+      font-style: italic;
+      color: var(--color-ink);
+      font-size: clamp(1.05rem, 2.6vw, 1.25rem);
       max-width: 30ch;
-      margin: 1.4rem auto 0;
+      line-height: 1.5;
+      margin: 0rem auto 0rem;
+    }
+
+    .ts-star {
+      color: var(--color-gold);
+      font-size: 1.1rem;
+      margin: .2rem auto;
+    }
+
+    /* ── Caja spoiler ───────────────────────────────────── */
+    .ts-spoiler {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: .8rem;
+      text-align: left;
+      border: 1.5px solid var(--color-gold-light);
+      border-radius: 10px;
+      background: rgba(255,255,255,.4);
+      padding: 1.2rem 1.4rem;
+      margin: .8rem auto 1.2rem;
+      max-width: 36ch;
+    }
+
+    .ts-spoiler-icon { flex: 0 0 auto; font-size: 1.6rem; line-height: 1; margin-top: .1rem; }
+
+    .ts-spoiler-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: .5rem; }
+
+    .ts-spoiler-main {
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 2.4vw, 1.125rem);
+      color: var(--color-ink);
       line-height: 1.6;
     }
-    .teaser-footer {
-      text-align: center;
-      padding: 2rem 1rem 2.4rem;
-      font-family: var(--font-accent);
-      font-style: italic;
+
+    .ts-spoiler-label { font-family: var(--font-script); color: var(--color-rose); font-size: 1.3em; margin-right: .1em; }
+
+    .ts-spoiler-sub {
+      font-family: var(--font-body);
+      font-size: clamp(.8rem, 1.8vw, .875rem);
       color: var(--color-ink-soft);
-      opacity: .75;
-      font-size: .85rem;
+      line-height: 1.5;
+    }
+
+    /* ── Nombre del invitado insertado dinámicamente ───── */
+    .guest-name {
+      font-family: var(--font-script);
+      font-size: 2em;
+      color: var(--color-rose);
+      text-shadow: 0 0 1px rgba(15,28,46,.18);
+      margin-top: 2rem;
+    }
+
+    .ts-heart-close {
+      color: var(--color-rose);
+      font-size: 1.4rem;
+      margin: 1rem auto .2rem;
+    }
+
+    .teaser-content{
+      background: var(--color-paper) !important;
+    }
+
+    /* ── Footer con assets/footer.png ───────────────────── */
+    .teaser-footer {
+      position: relative;
+      margin-top: clamp(-120px, -32vw, -310px);
+      min-height: clamp(220px, 32vw, 310px);
+      padding: 0rem 1.5rem 2rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      text-align: center;
+      background-color: transparent;
+      background-image: url('./assets/footer.png');
+      background-repeat: no-repeat, no-repeat;
+      background-position: top center, top center;
+      background-size: cover, 100% 100%;
+      z-index: 10;
+    }
+
+    .teaser-footer p {
+      font-family: var(--font-script);
+      font-size: clamp(1.1rem, 3.2vw, 1.4rem);
+      color: var(--color-paper);
+    }
+
+    .teaser-footer .heart { color: var(--color-rose-pale); }
+
+    @media (max-width: 640px) {
+      .ts-spoiler { max-width: none; }
+      .ts-main, .ts-accent { max-width: none; }
     }
   </style>
 </head>
@@ -46,56 +376,103 @@
 
 <section class="section" id="save-the-date" data-section="0" data-label="Guarda la Fecha">
 
-  <div class="section-inner">
-    <div class="section-img-wrap section-img-hero fade-in">
-      <img src="./assets/foto4.png" alt="Camilo y Maritza" class="section-img img-0" />
+  <div class="teaser-content">
+    <div class="section-inner">
+  
+      <div class="ts-hero-wrap fade-in">
+        <div class="section-img-wrap section-img-hero">
+          <img src="./assets/mainPicture.png" alt="Camilo y Maritza" class="section-img img-0" />
+          <div class="ts-hero-fade" aria-hidden="true"></div>
+        </div>
+        <div class="ts-monogram" aria-hidden="true">
+          <span id="monogram-groom">C</span><span class="heart ts-heart">♥</span><span id="monogram-bride">M</span>
+        </div>
+      </div>
+  
+      <p class="ts-script fade-in">Sí&hellip;</p>
+      <h1 class="ts-title fade-in">Nos casamos.</h1>
+
+      <div class="ts-divider ts-divider-line fade-in">
+        <span class="line"></span>
+        <span>
+          <span class="ts-heart ts-heartbeat">♥</span>
+        </span>
+        <span class="line"></span>
+      </div>
+
+      <p class="ts-intro fade-in">No era un secreto&hellip; <br> pero ya era hora de <span id="reveal-word"></span> oficialmente.</p>
+
+      <div class="ts-divider ts-divider-line fade-in">
+        <span class="line"></span>
+        <span class="ts-heart">♦</span>
+        <span class="line"></span>
+      </div>
+  
+      <div class="ts-date-wrap fade-in">
+        <img src="./assets/rosas-bl.png" alt="" aria-hidden="true" class="ts-date-flower">
+        <div class="ts-date">
+          <div class="ts-daynum">14</div>
+          <div class="ts-month">de noviembre</div>
+          <div class="ts-year">— 2026 —</div>
+          <div class="ts-location">📍 Tibasosa, Boyacá</div>
+        </div>
+        <img src="./assets/rosas-br.png" alt="" aria-hidden="true" class="ts-date-flower">
+      </div>
+  
+      <div class="countdown fade-in" id="countdown">
+        <div class="countdown-unit"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">Días</span></div>
+        <span class="countdown-sep">·</span>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-hours">--</span><span class="countdown-label">Horas</span></div>
+        <span class="countdown-sep">·</span>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-mins">--</span><span class="countdown-label">Minutos</span></div>
+        <span class="countdown-sep">·</span>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-label">Segundos</span></div>
+      </div>
+  
+      <div class="ts-heartbeat fade-in" aria-hidden="true"><span class="ts-heart">♥</span></div>
+  
+      <br>
+      <p class="ts-transition fade-in" id="std-text"></p>
+  
+      <p class="ts-transition fade-in">y por ahora&hellip;</p>
+      <p class="ts-accent fade-in" id="noplans-text"></p>
+  
+      <div class="hand-drawn-line">
+        <svg viewBox="0 0 300 20" preserveAspectRatio="none">
+          <path 
+            d="M5,10 Q80,7 150,6 Q220,7 295,10 Q220,13 150,14 Q80,13 5,10 Z" 
+            fill="#d16d7a"
+          />
+        </svg>
+      </div>
+
+      <div class="ts-star fade-in" aria-hidden="true">★</div>
+  
+      <div class="ts-spoiler fade-in">
+        <span class="ts-spoiler-icon" aria-hidden="true">🎬</span>
+        <div class="ts-spoiler-body">
+          <p class="ts-spoiler-main"><span class="ts-spoiler-label">Spoiler:</span> Dentro de unos días vas enviaremos un mensaje bastante más largo.</p>
+          <p class="ts-spoiler-sub">Ahí sí <span id="tell-word"></span> contaremos dónde, a qué hora y todo lo demás.</p>
+        </div>
+      </div>
+
+      <div class="ts-star fade-in" aria-hidden="true">♥</div>
+
+      <p class="ts-transition fade-in">Ahora sí&hellip;</p>
+      <p class="ts-main fade-in">Ya <span id="can-word"></span> volver a <span id="you-word"></span> vida normal.</p>
+      <p class="ts-main ts-bold fade-in">Nosotros seguimos organizando una boda</p>
+  
+      <div class="ts-heart-close fade-in" aria-hidden="true"><span class="ts-heart">♥</span></div>
+  
     </div>
+    <footer class="teaser-footer">
+      <p>Camilo &amp; Maritza · Hecho con <span class="heart ts-heart">♥</span></p>
+    </footer>
 
-    <p id="guest-greeting" class="fade-in"></p>
-
-    <p class="section-label fade-in">aqui va un spoiler... <br/> ya casi nos casamos</p>
-
-    <div class="couple-names fade-in">
-      <span id="name-groom">Camilo</span>
-      <span class="heart">♥</span>
-      <span id="name-bride">Maritza</span>
-    </div>
-
-    <div class="section-divider fade-in">
-      <span class="divider-icon">✦</span>
-    </div>
-
-    <p class="section-subtitle fade-in">Queremos que estes ahí, así que guarda esta fecha</p>
-
-    <div class="wedding-date-box fade-in">
-      <div class="date-main" id="wedding-date-display">Sábado, 14 de noviembre de 2026</div>
-      <div class="date-sub">Tibasosa, Boyacá</div>
-    </div>
-
-    <div class="countdown fade-in" id="countdown">
-      <div class="countdown-unit"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">Días</span></div>
-      <span class="countdown-sep">·</span>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-hours">--</span><span class="countdown-label">Horas</span></div>
-      <span class="countdown-sep">·</span>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-mins">--</span><span class="countdown-label">Minutos</span></div>
-      <span class="countdown-sep">·</span>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-label">Segundos</span></div>
-    </div>
-
-    <p class="teaser-note fade-in">Muy pronto conocerás todos los detalles 💌<br>Por ahora, solo aparta este día en tu corazón.</p>
-
-    <img src="./assets/rosas-tl.png" alt="" aria-hidden="true" class="corner-img tl">
-    <img src="./assets/rosas-tr.png" alt="" aria-hidden="true" class="corner-img tr">
-    <img src="./assets/rosas-bl.png" alt="" aria-hidden="true" class="corner-img bl">
-    <img src="./assets/rosas-br.png" alt="" aria-hidden="true" class="corner-img br">
-    <img src="./assets/rosas-b.png"  alt="" aria-hidden="true" class="corner-img b">
   </div>
 
 </section>
 
-<footer class="teaser-footer">
-  Camilo &amp; Maritza · Hecho con <span class="heart" style="color:var(--color-rose)">♥</span>
-</footer>
 
 <!-- ════════════════════════════════════════════════════
      JAVASCRIPT — mínimo, propio de esta página teaser
@@ -105,19 +482,46 @@
 <script src="js/countdown.js"></script>
 <script src="js/guest.js"></script>
 <script>
-  // Nombres
-  document.getElementById('name-groom').textContent = WEDDING.groom;
-  document.getElementById('name-bride').textContent  = WEDDING.bride;
+  // Iniciales para el medallón
+  document.getElementById('monogram-groom').textContent = WEDDING.groom.charAt(0);
+  document.getElementById('monogram-bride').textContent  = WEDDING.bride.charAt(0);
 
-  // Fecha display
-  document.getElementById('wedding-date-display').textContent = WEDDING.weddingDateDisplay;
+  // Textos que dependen del invitado (nombre + singular/plural), ver guests.json
+  const stdText      = document.getElementById('std-text');
+  const revealWord   = document.getElementById('reveal-word');
+  const noplansText  = document.getElementById('noplans-text');
+  const tellWord     = document.getElementById('tell-word');
+  const canWord      = document.getElementById('can-word');
+  const youWord      = document.getElementById('you-word');
 
-  // Saludo personalizado por código de invitado: ?codigo=XXXX (ver guests.json)
-  const greetEl = document.getElementById('guest-greeting');
-  getGuestName().then(function (guestName) {
-    greetEl.textContent = guestName
-      ? 'Hola ' + guestName + ','
-      : 'Con todo nuestro amor,';
+  getGuestData().then(function (guest) {
+    const single = guest.single !== false;
+    const name   = guest.name || '';
+
+    stdText.textContent = '';
+    if (name) {
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'guest-name';
+      nameSpan.textContent = name + ',';
+
+      const saveSpan = document.createElement('span');
+      saveSpan.className = 'ts-transition';
+      saveSpan.textContent = (single ? 'guarda' : 'guarden') + ' esta fecha.';
+      stdText.appendChild(nameSpan);
+      stdText.appendChild(document.createElement('br'));
+      stdText.appendChild(saveSpan);
+    } else {
+      stdText.appendChild(document.createTextNode('Guarda esta fecha.'));
+    }
+
+    noplansText.textContent = single
+      ? 'No se te ocurra aceptar otro plan ese día.'
+      : 'No se les ocurra aceptar otro plan ese día.';
+
+    tellWord.textContent    = single ? 'te'         : 'les';
+    canWord.textContent     = single ? 'puedes'     : 'pueden';
+    youWord.textContent     = single ? 'tu'         : 'su';
+    revealWord.textContent  = single ? 'contártelo' : 'contárselo';
   });
 
   // Mostrar de inmediato (única sección, sin scroll necesario)
