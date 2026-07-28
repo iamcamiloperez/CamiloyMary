@@ -307,9 +307,9 @@
 	.couple-names .heart { font-size: .5em; }
 
 	.section-img-hero {
-		width: calc(100% + 2 * clamp(1.4rem, 5vw, 2rem));
-		margin-left:  calc(-1 * clamp(1.4rem, 5vw, 2rem));
-		margin-right: calc(-1 * clamp(1.4rem, 5vw, 2rem));
-		margin-top:   calc(-1 * clamp(2.2rem, 6vw, 3rem));
+		width: calc(100% + 2 * clamp(1rem, 5vw, 2rem));
+		margin-left:  calc(-1 * clamp(1rem, 5vw, 2rem));
+		margin-right: calc(-1 * clamp(1rem, 5vw, 2rem));
+		margin-top:   calc(-1 * clamp(2rem, 6vw, 3rem));
 	}
 }

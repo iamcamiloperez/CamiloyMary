@@ -12,7 +12,7 @@ No build, lint, or test commands exist. Open the HTML files directly in a browse
 
 ## Two entry points
 
-- **`index.html`** — the "save the date" teaser: a single non-scrolling section (nav, dots, hamburger menu, and scroll-snap are disabled via inline `<style>`). Loads only `config.js`, `js/countdown.js`, and a small inline `<script>` that fills in names, date, and the guest greeting directly — it does **not** load `js/init.js` or `js/common.js`, since those expect sections this page doesn't have.
+- **`index.html`** — the "save the date" teaser: a single non-scrolling section (nav, dots, hamburger menu, and scroll-snap are disabled via inline `<style>`). Loads only `config.js`, `js/countdown.js`, `js/guest.js`, and a small inline `<script>` that fills in the monogram initials, the countdown, and the guest-dependent template text directly — it does **not** load `js/init.js` or `js/common.js`, since those expect sections this page doesn't have. Its inline `<style>` block also redefines the shared CSS custom properties (palette, fonts) from `css/variables.css` with its own values, since this page's visual design (see `Mockups/Mockup.png`) is intentionally distinct from `invitacion-completa.html`'s.
 - **`invitacion-completa.html`** — the full multi-section invitation. Loads `config.js`, `js/init.js`, `js/countdown.js`, `js/common.js` (in that order — order matters, see below).
 
 `scriptwd.js` and `styleswd.css` are legacy/unused leftovers not referenced by either HTML file — don't edit them expecting an effect; if touching them, confirm with the user whether they should be deleted.
@@ -40,7 +40,13 @@ All four resolve to `scrollIntoView()` on the target section id.
 
 ## Personalized guest greeting
 
-Both entry points read a `?codigo=XXXX` (or `?code=XXXX`) URL query parameter — never a raw name — and resolve it via `js/guest.js`'s `getGuestName()`, which `fetch()`es `guests.json` (a flat `{ "CODE": "Guest Name" }` map) and looks up the code. Guests are added/renamed by editing only `guests.json`; no other file needs to change. `js/guest.js` must load before `js/init.js` (`invitacion-completa.html`) or before the inline script (`index.html`) that calls `getGuestName()`. Because it uses `fetch()`, this requires the site to be served over `http(s)://` — a local static server or the deployed host — it will not resolve when an HTML file is opened directly via `file://`. This is the only dynamic runtime input on the site; there is no backend or client-handled form submission — RSVP and memory-sharing links (`WEDDING.rsvp.formLink`, `WEDDING.qrs.items[].link`) just open external URLs.
+Both entry points read a `?codigo=XXXX` (or `?code=XXXX`) URL query parameter — never a raw name — and resolve it against `guests.json`, a `{ "CODE": { "name": "Guest Name", "single": true } }` map. `single` marks whether the code was issued to one person (`tú`/singular wording) or a couple/group (`ustedes`/plural wording). Guests are added/renamed by editing only `guests.json`; no other file needs to change.
+
+`js/guest.js` exposes two functions, both reading the same `guests.json`:
+- `getGuestData()` → resolves `{ name, single }`; falls back to `{ name: '', single: true }` (no name, singular wording) whenever the code is missing from the URL or not found in `guests.json`. Used by `index.html`'s inline script to build its guest-dependent sentence templates.
+- `getGuestName()` → resolves just the name string (built on top of `getGuestData()`), kept for `js/init.js` (`invitacion-completa.html`), which only needs the name for its greeting line.
+
+`js/guest.js` must load before `js/init.js` (`invitacion-completa.html`) or before the inline script (`index.html`) that calls these functions. Because it uses `fetch()`, this requires the site to be served over `http(s)://` — a local static server or the deployed host — it will not resolve when an HTML file is opened directly via `file://`. This is the only dynamic runtime input on the site; there is no backend or client-handled form submission — RSVP and memory-sharing links (`WEDDING.rsvp.formLink`, `WEDDING.qrs.items[].link`) just open external URLs.
 
 ## CSS structure
 
@@ -48,4 +54,4 @@ Split across `css/variables.css` (color palette, fonts, spacing custom propertie
 
 ## Asset convention
 
-Images live in `assets/`. Decorative rose corner images (`rosas-tl.png`, `rosas-tr.png`, `rosas-bl.png`, `rosas-br.png`, `rosas-b.png`) are placed per-section as ordinary `<img class="corner-img ...">` tags directly in the HTML — they are not injected by JavaScript. `WEDDING.audioSrc` is `null` by default; setting it to a file path enables the background-audio toggle button wired up in `js/init.js`.
+Images live in `assets/`. Decorative rose corner images (`rosas-tl.png`, `rosas-tr.png`, `rosas-bl.png`, `rosas-br.png`, `rosas-b.png`) are placed per-section as ordinary `<img class="corner-img ...">` tags directly in the HTML — they are not injected by JavaScript. `WEDDING.audioSrc` is `null` by default; setting it to a file path enables the background-audio toggle button wired up in `js/init.js`. `assets/mainPicture.png` is `index.html`'s hero image (already fades to its background color at the bottom edge). `assets/footer.png` is a dark, cloud-textured image with a transparent cutout at its top, used as `index.html`'s `<footer>` background — the transparent cutout lets the page background show through, so it reads as smoke rising into the footer rather than a hard rectangle.
