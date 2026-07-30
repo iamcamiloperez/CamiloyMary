@@ -178,6 +178,13 @@
       margin: 0rem auto .8rem;
     }
 
+    .ts-tree {
+      height: 80px;
+      left: 15px;
+      display: block;
+      position: relative;
+    }
+
     .ts-date-flower {
       width: clamp(50px, 12vw, 90px);
       flex-shrink: 0;
@@ -311,7 +318,7 @@
       line-height: 1.6;
     }
 
-    .ts-spoiler-label { font-family: var(--font-script); color: var(--color-rose); font-size: 1.3em; margin-right: .1em; }
+    .ts-spoiler-label { font-family: var(--font-script); color: var(--color-rose); font-size: 1.6em; margin-right: .1em; }
 
     .ts-spoiler-sub {
       font-family: var(--font-body);
@@ -409,14 +416,14 @@
       </div>
   
       <div class="ts-date-wrap fade-in">
-        <img src="./assets/rosas-bl.png" alt="" aria-hidden="true" class="ts-date-flower">
+        <img src="./assets/moon.png" alt="" aria-hidden="true" class="ts-date-flower">
         <div class="ts-date">
           <div class="ts-daynum">14</div>
           <div class="ts-month">de noviembre</div>
           <div class="ts-year">— 2026 —</div>
           <div class="ts-location">📍 Tibasosa, Boyacá</div>
         </div>
-        <img src="./assets/rosas-br.png" alt="" aria-hidden="true" class="ts-date-flower">
+        <img src="./assets/star.png" alt="" aria-hidden="true" class="ts-date-flower">
       </div>
   
       <div class="countdown fade-in" id="countdown">
@@ -446,17 +453,17 @@
         </svg>
       </div>
 
-      <div class="ts-star fade-in" aria-hidden="true">★</div>
+      <div class="ts-star fade-in" aria-hidden="true">⏾</div>
   
       <div class="ts-spoiler fade-in">
         <span class="ts-spoiler-icon" aria-hidden="true">🎬</span>
         <div class="ts-spoiler-body">
-          <p class="ts-spoiler-main"><span class="ts-spoiler-label">Spoiler:</span> Dentro de unos días vas enviaremos un mensaje bastante más largo.</p>
-          <p class="ts-spoiler-sub">Ahí sí <span id="tell-word"></span> contaremos dónde, a qué hora y todo lo demás.</p>
+          <p class="ts-spoiler-main"><span class="ts-spoiler-label">Spoiler:</span> Dentro de unos días enviaremos un mensaje bastante más largo.</p>
+          <p class="ts-spoiler-main">Ahí sí <span id="tell-word"></span> contaremos dónde, <br> a qué hora y todo lo demás.</p>
         </div>
       </div>
 
-      <div class="ts-star fade-in" aria-hidden="true">♥</div>
+      <div class="ts-star fade-in" aria-hidden="true">★</div>
 
       <p class="ts-transition fade-in">Ahora sí&hellip;</p>
       <p class="ts-main fade-in">Ya <span id="can-word"></span> volver a <span id="you-word"></span> vida normal.</p>
@@ -466,7 +473,10 @@
   
     </div>
     <footer class="teaser-footer">
-      <p>Camilo &amp; Maritza · Hecho con <span class="heart ts-heart">♥</span></p>
+      <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: -38px; margin-left: -20px;">
+        <img src="./assets/bugambilia.png" alt="" aria-hidden="true" class="ts-date-flower ts-tree">
+        <p>Camilo · &amp; · Maritza<span class="heart ts-heart"> ♥ </span></p>
+      </div>
     </footer>
 
   </div>
