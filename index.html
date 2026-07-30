@@ -180,9 +180,11 @@
 
     .ts-tree {
       height: 80px;
+      width: 85px !important;
       left: 15px;
       display: block;
       position: relative;
+      margin-bottom: -38px;
     }
 
     .ts-date-flower {
@@ -192,7 +194,7 @@
     }
 
     @media (max-width: 480px) {
-      .ts-date-flower { display: none; }
+      .ts-date-flower { width: clamp(30px, 9vw, 46px); }
     }
 
     .ts-daynum {
@@ -372,9 +374,17 @@
 
     .teaser-footer .heart { color: var(--color-rose-pale); }
 
+    .ts-footer-row {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      margin-left: -20px;
+    }
+
     @media (max-width: 640px) {
       .ts-spoiler { max-width: none; }
       .ts-main, .ts-accent { max-width: none; }
+      .ts-footer-row { margin-left: -8px; }
     }
   </style>
 </head>
@@ -473,7 +483,7 @@
   
     </div>
     <footer class="teaser-footer">
-      <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: -38px; margin-left: -20px;">
+      <div class="ts-footer-row">
         <img src="./assets/bugambilia.png" alt="" aria-hidden="true" class="ts-date-flower ts-tree">
         <p>Camilo · &amp; · Maritza<span class="heart ts-heart"> ♥ </span></p>
       </div>
