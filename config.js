@@ -150,6 +150,5 @@ const WEDDING = {
 	   Descomenta y reemplaza la ruta para habilitar la música.
 	   Formatos soportados: mp3, ogg, wav.
 	────────────────────────────────────────────────── */
-	audioSrc: null,
-	// audioSrc: 'assets/cancion.mp3',
+	audioSrc: 'assets/background.mp3',
 };

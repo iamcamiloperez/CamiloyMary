@@ -386,10 +386,93 @@
       .ts-main, .ts-accent { max-width: none; }
       .ts-footer-row { margin-left: -8px; }
     }
+
+    /* ── Portada: "toca para abrir" ─────────────────────
+       Pantalla previa que exige un click/tap real del usuario,
+       lo que además habilita la reproducción de la música de
+       fondo (los navegadores bloquean el autoplay con sonido
+       sin una interacción explícita).
+    ════════════════════════════════════════════════════ */
+    body.cover-active { overflow: hidden; }
+
+    #cover-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000A19;
+      cursor: pointer;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+
+    #cover-screen.cover-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .cover-inner { text-align: center; padding: 2rem; }
+
+    .cover-monogram {
+      width: clamp(90px, 22vw, 130px);
+      height: clamp(90px, 22vw, 130px);
+      border-radius: 50%;
+      border: 1.5px solid var(--color-gold);
+      outline: 1.5px solid var(--color-gold);
+      outline-offset: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .3em;
+      margin: 0 auto 1.5rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      color: var(--color-paper);
+    }
+
+    .cover-monogram .heart { color: var(--color-rose); font-size: .7em; }
+
+    .cover-names {
+      font-family: var(--font-script);
+      font-size: clamp(1.8rem, 6vw, 2.6rem);
+      color: var(--color-paper);
+      margin: 0 0 .8rem;
+    }
+
+    .cover-tap {
+      font-family: var(--font-body);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-size: clamp(.75rem, 2vw, .9rem);
+      color: var(--color-gold-light);
+      animation: cover-pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes cover-pulse {
+      0%, 100% { opacity: .6; }
+      50%      { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cover-tap { animation: none; }
+    }
   </style>
 </head>
 
-<body>
+<body class="cover-active">
+
+<div id="cover-screen" role="button" tabindex="0" aria-label="Toca para abrir la invitación">
+  <div class="cover-inner">
+    <div class="cover-monogram" aria-hidden="true">
+      <span id="cover-groom">C</span><span class="heart">♥</span><span id="cover-bride">M</span>
+    </div>
+    <p class="cover-names">Camilo &amp; Maritza</p>
+    <p class="cover-tap"><span aria-hidden="true">👆</span> Toca para abrir</p>
+  </div>
+</div>
 
 <section class="section" id="save-the-date" data-section="0" data-label="Guarda la Fecha">
 
@@ -546,6 +629,34 @@
 
   // Mostrar de inmediato (única sección, sin scroll necesario)
   document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+
+  // Portada "toca para abrir": el click/tap real habilita la reproducción
+  // de la música de fondo (los navegadores bloquean el autoplay con sonido
+  // sin una interacción explícita del usuario).
+  const coverScreen = document.getElementById('cover-screen');
+  document.getElementById('cover-groom').textContent = WEDDING.groom.charAt(0);
+  document.getElementById('cover-bride').textContent  = WEDDING.bride.charAt(0);
+
+  const bgAudio = WEDDING.audioSrc ? new Audio(WEDDING.audioSrc) : null;
+  if (bgAudio) {
+    bgAudio.loop = true;
+  }
+
+  function openInvitation() {
+    coverScreen.classList.add('cover-hidden');
+    document.body.classList.remove('cover-active');
+    if (bgAudio) {
+      bgAudio.play().catch(function () {});
+    }
+  }
+
+  coverScreen.addEventListener('click', openInvitation, { once: true });
+  coverScreen.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openInvitation();
+    }
+  }, { once: true });
 </script>
 
 </body>
