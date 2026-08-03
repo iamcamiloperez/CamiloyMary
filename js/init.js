@@ -17,6 +17,9 @@
 
 	/* ── Saludo personalizado por código de invitado: ?codigo=XXXX (ver guests.json) ── */
 	const greetEl = document.getElementById('guest-greeting');
+	// Texto genérico de inmediato para que no se vea vacío si guests.json
+	// tarda en cargar (internet lento) o falla; se reemplaza al resolver.
+	greetEl.textContent = 'Con todo nuestro amor,';
 	getGuestName().then(function (guestName) {
 		greetEl.textContent = guestName
 			? 'Querido/a ' + guestName + ','

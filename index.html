@@ -597,7 +597,10 @@
   const canWord      = document.getElementById('can-word');
   const youWord      = document.getElementById('you-word');
 
-  getGuestData().then(function (guest) {
+  // Rellena de inmediato con el texto genérico (sin nombre, singular) para
+  // que la página nunca se vea con huecos en blanco si guests.json tarda en
+  // cargar (internet lento) o falla. Se reemplaza en cuanto resuelva el fetch.
+  function applyGuestTexts(guest) {
     const single = guest.single !== false;
     const name   = guest.name || '';
 
@@ -625,7 +628,10 @@
     canWord.textContent     = single ? 'puedes'     : 'pueden';
     youWord.textContent     = single ? 'tu'         : 'su';
     revealWord.textContent  = single ? 'contártelo' : 'contárselo';
-  });
+  }
+
+  applyGuestTexts({ name: '', single: true });
+  getGuestData().then(applyGuestTexts);
 
   // Mostrar de inmediato (única sección, sin scroll necesario)
   document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
