@@ -118,6 +118,7 @@
 		const audio  = new Audio(WEDDING.audioSrc);
 		audio.loop   = true;
 		let playing  = false;
+		let pausedByVisibility = false;
 		const btn    = document.getElementById('audio-toggle');
 		btn.addEventListener('click', function() {
 			if (playing) {
@@ -128,6 +129,18 @@
 				btn.textContent = '🔇';
 			}
 			playing = !playing;
+		});
+
+		document.addEventListener('visibilitychange', function() {
+			if (document.hidden) {
+				if (playing) {
+					audio.pause();
+					pausedByVisibility = true;
+				}
+			} else if (pausedByVisibility) {
+				pausedByVisibility = false;
+				audio.play();
+			}
 		});
 	}
 
