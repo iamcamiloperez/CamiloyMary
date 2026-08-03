@@ -17,6 +17,9 @@
 
 	/* ── Saludo personalizado por código de invitado: ?codigo=XXXX (ver guests.json) ── */
 	const greetEl = document.getElementById('guest-greeting');
+	// Texto genérico de inmediato para que no se vea vacío si guests.json
+	// tarda en cargar (internet lento) o falla; se reemplaza al resolver.
+	greetEl.textContent = 'Con todo nuestro amor,';
 	getGuestName().then(function (guestName) {
 		greetEl.textContent = guestName
 			? 'Querido/a ' + guestName + ','
@@ -115,6 +118,7 @@
 		const audio  = new Audio(WEDDING.audioSrc);
 		audio.loop   = true;
 		let playing  = false;
+		let pausedByVisibility = false;
 		const btn    = document.getElementById('audio-toggle');
 		btn.addEventListener('click', function() {
 			if (playing) {
@@ -125,6 +129,18 @@
 				btn.textContent = '🔇';
 			}
 			playing = !playing;
+		});
+
+		document.addEventListener('visibilitychange', function() {
+			if (document.hidden) {
+				if (playing) {
+					audio.pause();
+					pausedByVisibility = true;
+				}
+			} else if (pausedByVisibility) {
+				pausedByVisibility = false;
+				audio.play();
+			}
 		});
 	}
 
