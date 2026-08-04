@@ -459,6 +459,49 @@
     @media (prefers-reduced-motion: reduce) {
       .cover-tap { animation: none; }
     }
+
+    /* ── Indicador flotante "más abajo" ──────────────────
+       Aparece pegado a la parte inferior de la pantalla y
+       parpadea para invitar a hacer scroll; se oculta sola
+       en cuanto el usuario empieza a desplazarse o si el
+       contenido ya cabe completo en la pantalla.
+    ════════════════════════════════════════════════════ */
+    #scroll-hint {
+      position: fixed;
+      right: clamp(10px, 4vw, 22px);
+      bottom: clamp(14px, 4vh, 26px);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+      transition: opacity .5s ease;
+    }
+
+    #scroll-hint.scroll-hint-hidden { opacity: 0; }
+
+    .scroll-hint-chevron {
+      width: clamp(30px, 7vw, 40px);
+      height: clamp(30px, 7vw, 40px);
+      color: var(--color-gold);
+      filter: drop-shadow(0 2px 4px rgba(15,28,46,.25));
+      animation: scroll-hint-bounce 1.6s ease-in-out infinite;
+    }
+
+    .scroll-hint-chevron + .scroll-hint-chevron {
+      margin-top: -20px;
+      opacity: .55;
+      animation-delay: .15s;
+    }
+
+    @keyframes scroll-hint-bounce {
+      0%, 100% { transform: translateY(0);  opacity: .55; }
+      50%      { transform: translateY(7px); opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-hint-chevron { animation: none; }
+    }
   </style>
 </head>
 
@@ -576,6 +619,10 @@
 
 </section>
 
+<div id="scroll-hint" aria-hidden="true">
+  <svg class="scroll-hint-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  <svg class="scroll-hint-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+</div>
 
 <!-- ════════════════════════════════════════════════════
      JAVASCRIPT — mínimo, propio de esta página teaser
@@ -663,6 +710,20 @@
       openInvitation();
     }
   }, { once: true });
+
+  // Flecha "más abajo": se oculta apenas el usuario empieza a hacer scroll,
+  // o de una vez si la página completa ya cabe en la pantalla (nada que desplazar).
+  const scrollHint = document.getElementById('scroll-hint');
+
+  function updateScrollHint() {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight > 40;
+    const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 40;
+    scrollHint.classList.toggle('scroll-hint-hidden', !scrollable || atBottom);
+  }
+
+  updateScrollHint();
+  window.addEventListener('scroll', updateScrollHint, { passive: true });
+  window.addEventListener('resize', updateScrollHint);
 </script>
 
 </body>
