@@ -3,21 +3,489 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Camilo & Maritza – Boda</title>
+  <title>Camilo &amp; Maritza – Boda</title>
 
   <!-- ═══════════════════════════════════════════════════
-       FUENTES
+       FUENTES (las mismas de index.html — ver Mockups/Mockup.png)
   ════════════════════════════════════════════════════ -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Shippori+Mincho:wght@400;600&family=IM+Fell+English:ital@0;1&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:ital,wght@0,400;0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/variables.css" />
   <link rel="stylesheet" href="./css/common.css" />
   <link rel="stylesheet" href="./css/sections.css" />
   <link rel="stylesheet" href="./css/components.css" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════
+       Diseño heredado de index.html (save the date): misma paleta,
+       tipografía, portada "toca para abrir", hero con monograma,
+       fondo navy con columna crema y footer con humo. Las variables
+       compartidas se redefinen aquí, igual que en index.html, en vez
+       de tocar css/variables.css.
+    ════════════════════════════════════════════════════ */
+    html, body { scroll-snap-type: none; }
+
+    :root {
+      --color-paper:      #F8F1EA;
+      --color-paper-dark: #EFE4D8;
+      --color-ink:         #0F1C2E;
+      --color-ink-soft:    #26374d;
+      --color-rose:        #d16d7a;
+      --color-rose-light:  #e3a9bd;
+      --color-rose-pale:   #EBC5CD;
+      --color-gold:        #C8A86A;
+      --color-gold-light:  #ddc496;
+      --color-blue-deep:   #0F1C2E;
+      --font-display:      'Playfair Display', Georgia, serif;
+      --font-body:         'Lato', Arial, sans-serif;
+      --font-accent:       'Playfair Display', Georgia, serif;
+      --font-script:       'Great Vibes', cursive;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    /* ── Secciones: columna crema sobre fondo navy, altura según contenido ── */
+    .section,
+    .section:nth-child(odd),
+    .section:nth-child(even) {
+      height: auto;
+      min-height: 0;
+      overflow: visible;
+      padding: 0;
+      background: #000A19 !important;
+      animation: none !important;
+      scroll-margin-top: 56px;
+    }
+    #save-the-date { scroll-margin-top: 0; }
+
+    /* Fondo continuo: cada sección termina con el color con que empieza la
+       siguiente (paper → dark → paper …), así no hay corte entre secciones. */
+    .section-inner {
+      background: linear-gradient(to bottom, var(--color-paper), var(--color-paper-dark)) !important;
+      backdrop-filter: none;
+      box-shadow: none;
+      border-radius: 0;
+    }
+    .section-inner::before { display: none; }
+    section:nth-of-type(even) .section-inner {
+      background: linear-gradient(to bottom, var(--color-paper-dark), var(--color-paper)) !important;
+    }
+
+    /* El header no tapa el hero: queda oculto arriba del todo y aparece al
+       hacer scroll (js/common.js le pone .scrolled pasados 20px). */
+    #nav {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform .35s ease, opacity .35s ease, box-shadow .3s;
+    }
+    #nav.scrolled {
+      transform: none;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Títulos de sección con el mismo estilo de "Nos casamos." */
+    .section-title {
+      font-family: var(--font-display);
+      font-style: normal;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-size: clamp(1.5rem, 5.5vw, 2.8rem);
+      color: var(--color-ink);
+    }
+
+    /* La última sección deja espacio para el humo del footer */
+    #qrs .section-inner { padding-bottom: 110px; }
+
+    /* ── Hero + medallón monograma ─────────────────────── */
+    .ts-hero-wrap { position: relative; }
+    .ts-hero-wrap .section-img-wrap { position: relative; max-height: clamp(200px, 32vh, 320px); }
+
+    .ts-hero-fade {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 38%;
+      background: linear-gradient(to bottom, rgba(252,250,246,0) 0%, var(--color-paper) 92%);
+      pointer-events: none;
+    }
+
+    .ts-monogram {
+      position: absolute;
+      left: 50%;
+      bottom: 80px;
+      transform: translate(-50%, 50%);
+      width: clamp(70px, 18vw, 96px);
+      height: clamp(70px, 18vw, 96px);
+      border-radius: 50%;
+      background: transparent;
+      border: 1.5px solid var(--color-gold);
+      outline: 1.5px solid var(--color-gold);
+      outline-offset: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .3em;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      color: var(--color-ink);
+      box-shadow: 0 6px 18px rgba(15,28,46,.18);
+      z-index: 5;
+    }
+
+    .ts-monogram .heart { color: var(--color-rose); font-size: .7em; }
+
+    .ts-divider-line {
+      display: flex;
+      align-items: center;
+      width: 200px;
+      margin: 20px auto;
+    }
+
+    .ts-divider .line {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--color-gold));
+      margin-right: 10px;
+      margin-left: 0px;
+    }
+
+    .ts-divider .line:last-child {
+      margin-left: 10px;
+      background: linear-gradient(to left, transparent, var(--color-gold));
+    }
+
+    .ts-divider {
+      color: var(--color-gold);
+      font-size: 1rem;
+    }
+
+    /* ── Texto guion / título ──────────────────────────── */
+    .ts-script {
+      font-family: var(--font-script);
+      font-size: clamp(2.4rem, 9vw, 3.6rem);
+      color: var(--color-rose);
+      line-height: 1;
+      margin-top: 1rem;
+    }
+
+    .ts-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-size: clamp(2.2rem, 7vw, 3.5rem);
+      color: var(--color-ink);
+      line-height: 1.1;
+      margin-top: .2rem;
+    }
+
+    .ts-intro {
+      font-family: var(--font-body);
+      font-style: italic;
+      color: var(--color-ink);
+      font-size: clamp(1.05rem, 2.6vw, 1.25rem);
+      max-width: 34ch;
+      line-height: 1.5;
+      margin: .6rem auto .2rem;
+    }
+
+    /* ── Fecha ──────────────────────────────────────────── */
+    .ts-date-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(.5rem, 3vw, 1.5rem);
+      margin: 0rem auto .8rem;
+    }
+
+    .ts-date-flower {
+      width: clamp(50px, 12vw, 90px);
+      flex-shrink: 0;
+      opacity: .9;
+    }
+
+    @media (max-width: 480px) {
+      .ts-date-flower { width: clamp(30px, 9vw, 46px); }
+    }
+
+    .ts-daynum {
+      font-family: var(--font-display);
+      font-weight: 200;
+      font-size: clamp(3.5rem, 18vw, 6rem);
+      color: var(--color-rose);
+      line-height: .9;
+      margin-bottom: 0.5rem;
+    }
+
+    .ts-month {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: clamp(1.6rem, 6vw, 2rem);
+      color: var(--color-rose);
+      margin-top: .3rem;
+    }
+
+    .ts-year {
+      font-family: var(--font-display);
+      letter-spacing: .18em;
+      font-size: clamp(1.4rem, 3.5vw, 1.4rem);
+      color: var(--color-rose);
+      margin-top: .1rem;
+    }
+
+    .ts-location {
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: clamp(.8rem, 2.2vw, 1.25rem);
+      color: var(--color-ink-soft);
+      margin-top: .7rem;
+    }
+
+    .countdown {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Corazones (mismo glifo en todos, todos animados) ─ */
+    .ts-heart {
+      display: inline-block;
+      animation: ts-pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes ts-pulse {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.28); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ts-heart { animation: none; }
+    }
+
+    .ts-heartbeat {
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      color: var(--color-rose);
+    }
+
+    /* ── Nombre del invitado insertado dinámicamente ───── */
+    .guest-name {
+      font-family: var(--font-script);
+      font-size: 2em;
+      color: var(--color-rose);
+      text-shadow: 0 0 1px rgba(15,28,46,.18);
+    }
+
+    #guest-greeting {
+      font-size: clamp(1rem, 2.4vw, 1.15rem);
+      margin: 1rem auto 0;
+    }
+
+    /* En pantallas anchas el footer se limita a la misma columna de 680px que
+       las secciones, con el fondo navy a los lados; si no, footer.png se
+       estira al ancho de la ventana y solo se ve su recorte transparente. */
+    .footer-wrap {
+      display: flex;
+      justify-content: center;
+      padding-bottom: 1rem; /* la bugambilia sobresale unos px bajo el footer */
+      background: #000A19;
+    }
+
+    /* El hero termina en --color-paper plano: el degradado de la primera
+       sección arranca después para que no se note una franja bajo la imagen. */
+    #save-the-date .section-inner {
+      background: linear-gradient(to bottom, var(--color-paper) 0, var(--color-paper) 300px, var(--color-paper-dark)) !important;
+    }
+
+    /* ── Footer con assets/footer.png ───────────────────── */
+    .teaser-footer {
+      position: relative;
+      margin-top: clamp(-120px, -18vw, -60px);
+      aspect-ratio: 1024 / 491;
+      padding: 0rem 1.5rem 1.5rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      width: 100%;
+      max-width: 680px;
+      text-align: center;
+      background-color: var(--color-paper-dark);
+      background-image: url('./assets/footer.png');
+      background-repeat: no-repeat, no-repeat;
+      background-position: top center, top center;
+      background-size: cover, 100% 100%;
+      z-index: 10;
+    }
+
+    .teaser-footer p {
+      font-family: var(--font-script);
+      font-size: clamp(1.1rem, 3.2vw, 1.4rem);
+      color: var(--color-paper);
+    }
+
+    .ts-footer-row {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      margin-left: -20px;
+    }
+
+    .ts-tree {
+      height: 80px;
+      width: 85px !important;
+      left: 15px;
+      display: block;
+      position: relative;
+      margin-bottom: -38px;
+    }
+
+    .teaser-footer .heart { color: var(--color-rose-pale); }
+
+    @media (max-width: 640px) {
+      .ts-footer-row { margin-left: -8px; }
+    }
+
+    /* ── Portada: "toca para abrir" ─────────────────────
+       Pantalla previa que exige un click/tap real del usuario,
+       lo que además habilita la reproducción de la música de
+       fondo (los navegadores bloquean el autoplay con sonido
+       sin una interacción explícita).
+    ════════════════════════════════════════════════════ */
+    body.cover-active { overflow: hidden; }
+
+    #cover-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000A19;
+      cursor: pointer;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+
+    #cover-screen.cover-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .cover-inner { text-align: center; padding: 2rem; }
+
+    .cover-monogram {
+      width: clamp(90px, 22vw, 130px);
+      height: clamp(90px, 22vw, 130px);
+      border-radius: 50%;
+      border: 1.5px solid var(--color-gold);
+      outline: 1.5px solid var(--color-gold);
+      outline-offset: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .3em;
+      margin: 0 auto 1.5rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      color: var(--color-paper);
+    }
+
+    .cover-monogram .heart { color: var(--color-rose); font-size: .7em; }
+
+    .cover-names {
+      font-family: var(--font-script);
+      font-size: clamp(1.8rem, 6vw, 2.6rem);
+      color: var(--color-paper);
+      margin: 0 0 .8rem;
+    }
+
+    .cover-tap {
+      font-family: var(--font-body);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-size: clamp(.75rem, 2vw, .9rem);
+      color: var(--color-gold-light);
+      animation: cover-pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes cover-pulse {
+      0%, 100% { opacity: .6; }
+      50%      { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cover-tap { animation: none; }
+    }
+
+    /* ── Indicador flotante "más abajo" ──────────────────
+       Centrado abajo (la esquina derecha la ocupa el botón de
+       audio); se oculta al llegar al final de la página.
+    ════════════════════════════════════════════════════ */
+    #scroll-hint {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: clamp(14px, 4vh, 26px);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+      transition: opacity .5s ease;
+    }
+
+    #scroll-hint.scroll-hint-hidden { opacity: 0; }
+
+    .scroll-hint-chevron {
+      width: clamp(30px, 7vw, 40px);
+      height: clamp(30px, 7vw, 40px);
+      color: var(--color-gold);
+      filter: drop-shadow(0 2px 4px rgba(15,28,46,.25));
+      animation: scroll-hint-bounce 1.6s ease-in-out infinite;
+    }
+
+    .scroll-hint-chevron + .scroll-hint-chevron {
+      margin-top: -20px;
+      opacity: .55;
+      animation-delay: .15s;
+    }
+
+    @keyframes scroll-hint-bounce {
+      0%, 100% { transform: translateY(0);  opacity: .55; }
+      50%      { transform: translateY(7px); opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-hint-chevron { animation: none; }
+    }
+  </style>
 </head>
 
-<body>
+<body class="cover-active">
+
+<!-- ════════════════════════════════════════════════════
+     PORTADA "TOCA PARA ABRIR"
+════════════════════════════════════════════════════ -->
+<div id="cover-screen" role="button" tabindex="0" aria-label="Toca para abrir la invitación">
+  <div class="cover-inner">
+    <div class="cover-monogram" aria-hidden="true">
+      <span data-t="groomInitial"></span><span class="heart">♥</span><span data-t="brideInitial"></span>
+    </div>
+    <p class="cover-names" data-t="couple"></p>
+    <p class="cover-tap"><span aria-hidden="true">👆</span> <span data-t="cover.tap"></span></p>
+  </div>
+</div>
 
 <!-- ════════════════════════════════════════════════════
      BARRA DE PROGRESO
@@ -25,26 +493,19 @@
 <div id="scroll-progress"></div>
 
 <!-- ════════════════════════════════════════════════════
-     AUDIO (espacio reservado)
+     AUDIO — la ruta viene de WEDDING.audioSrc; js/init.js
+     crea el reproductor y la portada lo inicia al abrir
 ════════════════════════════════════════════════════ -->
-<!-- AUDIO: reemplaza el src con la canción deseada -->
-<!-- <audio id="bg-audio" loop src="RUTA_A_TU_CANCION.mp3"></audio> -->
 <button id="audio-toggle" title="Música de fondo" aria-label="Alternar música">🎵</button>
 
 <!-- ════════════════════════════════════════════════════
      NAVEGACIÓN PRINCIPAL
 ════════════════════════════════════════════════════ -->
 <nav id="nav" role="navigation" aria-label="Navegación principal">
-  <div class="nav-brand">Camilo &amp; Maritza</div>
+  <div class="nav-brand" data-t="couple"></div>
 
-  <ul class="nav-links" role="list">
-    <li><a href="#save-the-date">La Fecha</a></li>
-    <li><a href="#ceremonia">Ceremonia</a></li>
-    <li><a href="#recepcion">Recepción</a></li>
-    <li><a href="#asistencia">Asistencia</a></li>
-    <li><a href="#recomendaciones">Recomend.</a></li>
-    <li><a href="#dresscode">Dress Code</a></li>
-    <li><a href="#qrs">Recuerdos</a></li>
+  <ul class="nav-links" id="nav-links" role="list">
+    <!-- Generado por JS (WEDDING.nav) -->
   </ul>
 
   <button id="hamburger" aria-label="Abrir menú" aria-expanded="false">
@@ -54,13 +515,7 @@
 
 <!-- Menú móvil -->
 <div id="mobile-menu" role="navigation" aria-label="Menú móvil">
-  <a href="#save-the-date">💌 La Fecha</a>
-  <a href="#ceremonia">⛪ Ceremonia</a>
-  <a href="#recepcion">🥂 Recepción</a>
-  <a href="#asistencia">✅ Confirmar Asistencia</a>
-  <a href="#recomendaciones">📋 Recomendaciones</a>
-  <a href="#dresscode">👗 Dress Code</a>
-  <a href="#qrs">📸 Recuerdos</a>
+  <!-- Generado por JS (WEDDING.nav) -->
 </div>
 
 <!-- ════════════════════════════════════════════════════
@@ -70,58 +525,73 @@
 
 <!-- ════════════════════════════════════════════════════
      SECCIÓN 1: GUARDA LA FECHA
-     IMAGEN: Ilustración/foto de la pareja en jardín o balcón exterior
-             Formato horizontal (landscape) · Ratio 16:9 o 4:3
-             Dimensiones: 1200×675 px (16:9) o 1200×900 px (4:3)
-             La imagen aparece como encabezado visual sobre el texto
-             Peso máx: 350 KB · Comprimida para web (JPG progresivo)
-             Referencia de estilo: imagen 1 (pareja en jardín con rosas)
+     Hero con monograma, saludo al invitado, fecha y cuenta regresiva
+     (misma composición que index.html)
 ════════════════════════════════════════════════════ -->
-<section class="section" id="save-the-date" data-section="0" data-label="La Fecha">
+<section class="section" id="save-the-date" data-section="0">
 
   <div class="section-inner">
-    <div class="section-img-wrap section-img-hero fade-in">
-      <img src="./assets/foto0.png" alt="Camilo y Maritza" class="section-img img-0" />
-      <div class="section-img-placeholder">
-        <span class="img-ph-icon">🌸</span>
-        <span class="img-ph-label">Foto de la pareja<br><small>1200 × 675 px · ratio 16:9</small></span>
+    <div class="ts-hero-wrap fade-in">
+      <div class="section-img-wrap section-img-hero">
+        <img src="./assets/mainPicture.png" alt="Camilo y Maritza" class="section-img img-0" />
+        <div class="ts-hero-fade" aria-hidden="true"></div>
+      </div>
+      <div class="ts-monogram" aria-hidden="true">
+        <span data-t="groomInitial"></span><span class="heart ts-heart">♥</span><span data-t="brideInitial"></span>
       </div>
     </div>
+
     <p id="guest-greeting" class="fade-in"></p>
-    <!-- ══ IMAGEN 1 – GUARDA LA FECHA ══
-         Reemplaza IMG_SRC_SAVE_DATE con tu ruta real.
-         Sugerencia: foto romántica de la pareja al aire libre,
-         estilo ilustración ukiyo-e / ghibli, fondo jardín con flores.
-         Dimensiones: 1200×675 px  ·  Ratio 16:9  ·  Max 350 KB -->
-    <p class="section-label fade-in">Con alegría los invitan a celebrar</p>
+
+    <p class="ts-script fade-in" data-t="hero.script"></p>
+    <h1 class="ts-title fade-in" data-t="hero.title"></h1>
+
+    <div class="ts-divider ts-divider-line fade-in">
+      <span class="line"></span>
+      <span>
+        <span class="ts-heart ts-heartbeat">♥</span>
+      </span>
+      <span class="line"></span>
+    </div>
+
+    <p class="ts-intro fade-in" data-t="hero.intro"></p>
 
     <div class="couple-names fade-in">
-      <span id="name-groom">Camilo</span>
+      <span data-t="groom"></span>
       <span class="heart">♥</span>
-      <span id="name-bride">Maritza</span>
+      <span data-t="bride"></span>
     </div>
 
-    <div class="section-divider fade-in">
-      <span class="divider-icon">✦</span>
+    <div class="ts-divider ts-divider-line fade-in">
+      <span class="line"></span>
+      <span class="ts-heart">♦</span>
+      <span class="line"></span>
     </div>
 
-    <p class="section-subtitle fade-in">Guarda esta fecha</p>
-
-    <div class="wedding-date-box fade-in">
-      <div class="date-main" id="wedding-date-display">Sábado, 14 de febrero de 2026</div>
-      <div class="date-sub">Bogotá, Colombia</div>
+    <div class="ts-date-wrap fade-in">
+      <img src="./assets/moon.png" alt="" aria-hidden="true" class="ts-date-flower">
+      <div class="ts-date">
+        <span class="sr-only" id="wedding-date-display"></span>
+        <div class="ts-daynum" id="date-day" aria-hidden="true"></div>
+        <div class="ts-month" id="date-month" aria-hidden="true"></div>
+        <div class="ts-year" id="date-year" aria-hidden="true"></div>
+        <div class="ts-location">📍 <span id="date-location"></span></div>
+      </div>
+      <img src="./assets/star.png" alt="" aria-hidden="true" class="ts-date-flower">
     </div>
 
     <div class="countdown fade-in" id="countdown">
-      <div class="countdown-unit"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">Días</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label" data-t="countdown.days"></span></div>
       <span class="countdown-sep">·</span>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-hours">--</span><span class="countdown-label">Horas</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-hours">--</span><span class="countdown-label" data-t="countdown.hours"></span></div>
       <span class="countdown-sep">·</span>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-mins">--</span><span class="countdown-label">Minutos</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-mins">--</span><span class="countdown-label" data-t="countdown.minutes"></span></div>
       <span class="countdown-sep">·</span>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-label">Segundos</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-label" data-t="countdown.seconds"></span></div>
     </div>
-    <img src="./assets/rosas-bl.png" alt="" aria-hidden="true" class="corner-img bl">
+
+    <div class="ts-heartbeat fade-in" aria-hidden="true"><span class="ts-heart">♥</span></div>
+
     <img src="./assets/rosas-br.png" alt="" aria-hidden="true" class="corner-img br">
     <img src="./assets/rosas-b.png"  alt="" aria-hidden="true" class="corner-img b">
   </div>
@@ -130,25 +600,14 @@
 
 <!-- ════════════════════════════════════════════════════
      SECCIÓN 2: CEREMONIA
-     IMAGEN: Fachada o interior de la iglesia / capilla
-             Formato: horizontal 16:9 o cuadrado 1:1
-             Dimensiones: 1200×675 px (16:9) o 900×900 px (1:1)
-             Aparece arriba del card de información, como encabezado
-             Peso máx: 280 KB · JPG progresivo
-             Referencia de estilo: imagen 2 (pareja en iglesia con pétalos)
 ════════════════════════════════════════════════════ -->
-<section class="section" id="ceremonia" data-section="1" data-label="Ceremonia">
+<section class="section" id="ceremonia" data-section="1">
 
   <div class="section-inner">
-    <p class="section-label fade-in">El enlace sagrado</p>
-    <h2 class="section-title fade-in">Ceremonia</h2>
+    <p class="section-label fade-in" data-t="ceremony.label"></p>
+    <h2 class="section-title fade-in" data-t="ceremony.title"></h2>
     <div class="section-divider fade-in"><span class="divider-icon">⛪</span></div>
 
-    <!-- ══ IMAGEN 2 – CEREMONIA ══
-         Reemplaza IMG_SRC_CEREMONIA con tu ruta real.
-         Sugerencia: ilustración de la pareja en la iglesia con pétalos en el piso,
-         o fachada exterior de la capilla en estilo ukiyo-e / acuarela.
-         Dimensiones: 1200×675 px  ·  Ratio 16:9  ·  Max 280 KB -->
     <div class="section-img-wrap fade-in">
       <img src="./assets/foto2.png" alt="Ceremonia" class="section-img" />
       <div class="section-img-placeholder">
@@ -161,56 +620,45 @@
       <div class="event-detail">
         <span class="icon">📍</span>
         <div class="text">
-          <strong id="ceremony-place">Nombre de la Iglesia / Capilla</strong>
-          <span id="ceremony-address">Dirección de la ceremonia, Bogotá</span>
+          <strong data-t="ceremony.place"></strong>
+          <span data-t="ceremony.address"></span>
         </div>
       </div>
       <div class="event-detail">
         <span class="icon">📅</span>
         <div class="text">
-          <strong id="ceremony-date">Sábado, 14 de febrero de 2026</strong>
-          <span id="ceremony-time">3:00 p.m.</span>
+          <strong data-t="ceremony.date"></strong>
+          <span data-t="ceremony.time"></span>
         </div>
       </div>
       <div class="event-detail">
         <span class="icon">🕐</span>
         <div class="text">
-          <strong>Por favor llega 20 minutos antes</strong>
-          Las puertas se abren a las 2:30 p.m.
+          <strong data-t="ceremony.arrival"></strong>
+          <span data-t="ceremony.doors"></span>
         </div>
       </div>
     </div>
 
-    <a href="LINK_MAPA_CEREMONIA" class="btn btn-blue" target="_blank" rel="noopener">
+    <a data-href="ceremony.mapLink" href="#" class="btn btn-blue" target="_blank" rel="noopener">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      Ver en el mapa
+      <span data-t="ceremony.mapLabel"></span>
     </a>
     <img src="./assets/rosas-tl.png" alt="" aria-hidden="true" class="corner-img tl">
-    <img src="./assets/rosas-br.png" alt="" aria-hidden="true" class="corner-img br">
   </div>
 
 </section>
 
 <!-- ════════════════════════════════════════════════════
      SECCIÓN 3: RECEPCIÓN
-     IMAGEN: Pareja brindando con champagne en salón decorado
-             Formato: horizontal 16:9
-             Dimensiones: 1200×675 px  ·  Max 300 KB
-             Aparece arriba del card, como encabezado
-             Referencia de estilo: imagen 1 (panel derecho recepción luces)
 ════════════════════════════════════════════════════ -->
-<section class="section" id="recepcion" data-section="2" data-label="Recepción">
+<section class="section" id="recepcion" data-section="2">
 
   <div class="section-inner">
-    <p class="section-label fade-in">La celebración continúa</p>
-    <h2 class="section-title fade-in">Recepción</h2>
+    <p class="section-label fade-in" data-t="reception.label"></p>
+    <h2 class="section-title fade-in" data-t="reception.title"></h2>
     <div class="section-divider fade-in"><span class="divider-icon">🥂</span></div>
 
-    <!-- ══ IMAGEN 3 – RECEPCIÓN ══
-         Reemplaza IMG_SRC_RECEPCION con tu ruta real.
-         Sugerencia: ilustración de la pareja brindando bajo luces cálidas,
-         en salón con guirnaldas, estilo ukiyo-e / ghibli, tonos dorados.
-         Dimensiones: 1200×675 px  ·  Ratio 16:9  ·  Max 300 KB -->
     <div class="section-img-wrap fade-in">
       <img src="./assets/foto3.png" alt="Recepción" class="section-img" />
       <div class="section-img-placeholder">
@@ -223,32 +671,31 @@
       <div class="event-detail">
         <span class="icon">📍</span>
         <div class="text">
-          <strong id="reception-place">Nombre del salón / hacienda</strong>
-          <span id="reception-address">Dirección de la recepción, Bogotá</span>
+          <strong data-t="reception.place"></strong>
+          <span data-t="reception.address"></span>
         </div>
       </div>
       <div class="event-detail">
         <span class="icon">📅</span>
         <div class="text">
-          <strong id="reception-date">Sábado, 14 de febrero de 2026</strong>
-          <span id="reception-time">5:00 p.m. – 2:00 a.m.</span>
+          <strong data-t="reception.date"></strong>
+          <span data-t="reception.time"></span>
         </div>
       </div>
       <div class="event-detail">
         <span class="icon">🎶</span>
         <div class="text">
-          <strong>Música, comida y mucho amor</strong>
-          Te esperamos para compartir esta noche especial
+          <strong data-t="reception.extraTitle"></strong>
+          <span data-t="reception.extraText"></span>
         </div>
       </div>
     </div>
 
-    <a href="LINK_MAPA_RECEPCION" class="btn btn-blue" target="_blank" rel="noopener">
+    <a data-href="reception.mapLink" href="#" class="btn btn-blue" target="_blank" rel="noopener">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      Ver en el mapa
+      <span data-t="reception.mapLabel"></span>
     </a>
     <img src="./assets/rosas-tr.png" alt="" aria-hidden="true" class="corner-img tr">
-    <img src="./assets/rosas-bl.png" alt="" aria-hidden="true" class="corner-img bl">
     <img src="./assets/rosas-b.png"  alt="" aria-hidden="true" class="corner-img b">
   </div>
 
@@ -256,30 +703,16 @@
 
 <!-- ════════════════════════════════════════════════════
      SECCIÓN 4: CONFIRMAR ASISTENCIA
-     IMAGEN: Pareja en ambiente festivo / baile / arco de flores
-             Formato: horizontal 16:9 o cuadrado 1:1 (centrado)
-             Dimensiones: 900×900 px (cuadrado) o 1200×675 px (16:9)
-             Aparece bajo el texto, sobre el botón de confirmar
-             Referencia de estilo: imagen 3 panel inferior derecho (arco rosas)
 ════════════════════════════════════════════════════ -->
-<section class="section" id="asistencia" data-section="3" data-label="Asistencia">
+<section class="section" id="asistencia" data-section="3">
 
   <div class="section-inner">
-    <p class="section-label fade-in">Tu presencia es el mejor regalo</p>
-    <h2 class="section-title fade-in">Confirma tu<br>asistencia</h2>
+    <p class="section-label fade-in" data-t="rsvp.label"></p>
+    <h2 class="section-title fade-in" data-t="rsvp.title"></h2>
     <div class="section-divider fade-in"><span class="divider-icon">✉</span></div>
 
-    <p class="section-body fade-in" id="rsvp-message">
-      Por favor confirma tu asistencia antes del <strong id="rsvp-deadline">31 de enero de 2026</strong>.<br>
-      En el formulario encontrarás información útil sobre transporte, alimentación, bebidas y hospedaje.
-    </p>
+    <p class="section-body fade-in" data-t="rsvp.message"></p>
 
-    <!-- ══ IMAGEN 4 – CONFIRMAR ASISTENCIA ══
-         Reemplaza IMG_SRC_ASISTENCIA con tu ruta real.
-         Sugerencia: ilustración romántica de la pareja bajo arco de flores,
-         o pareja danzando, estilo ukiyo-e, tonos cálidos rosados y azules.
-         Dimensiones: 900×900 px  ·  Ratio 1:1  ·  Max 280 KB
-         Se muestra circular / redondeada como elemento visual central -->
     <div class="section-img-wrap fade-in section-img-circle">
       <img src="./assets/foto4.png" alt="Confirma tu asistencia" class="section-img" />
       <div class="section-img-placeholder">
@@ -288,14 +721,12 @@
       </div>
     </div>
 
-    <a href="LINK_FORMULARIO_ASISTENCIA" class="btn" target="_blank" rel="noopener">
+    <a data-href="rsvp.formLink" href="#" class="btn" target="_blank" rel="noopener">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
-      Confirmar asistencia
+      <span data-t="rsvp.buttonLabel"></span>
     </a>
 
-    <p class="section-body fade-in" style="margin-top:.8rem;font-size:.78rem;opacity:.7">
-      Si tienes preguntas, contáctanos directamente ↓
-    </p>
+    <p class="section-body fade-in" style="margin-top:.8rem;font-size:.78rem;opacity:.7" data-t="rsvp.help"></p>
     <img src="./assets/rosas-tl.png" alt="" aria-hidden="true" class="corner-img tl">
     <img src="./assets/rosas-tr.png" alt="" aria-hidden="true" class="corner-img tr">
     <img src="./assets/rosas-bl.png" alt="" aria-hidden="true" class="corner-img bl">
@@ -306,24 +737,15 @@
 
 <!-- ════════════════════════════════════════════════════
      SECCIÓN 5: RECOMENDACIONES
-     IMAGEN: Retrato de Luna (la hija) en pose alegre / tierna
-             Formato: cuadrado 1:1 — se muestra como medallón circular
-             Dimensiones: 600×600 px  ·  Ratio 1:1  ·  Max 180 KB
-             JPG o PNG con fondo neutro o exterior luminoso
-             Se ubica como encabezado de la sección, centrada
+     IMAGEN pendiente: retrato de Luna, 600×600 px, medallón circular
 ════════════════════════════════════════════════════ -->
-<section class="section" id="recomendaciones" data-section="4" data-label="Recomendaciones">
+<section class="section" id="recomendaciones" data-section="4">
 
   <div class="section-inner">
-    <p class="section-label fade-in">Para que todo fluya perfecto</p>
-    <h2 class="section-title fade-in">Recomendaciones</h2>
+    <p class="section-label fade-in" data-t="recommendations.label"></p>
+    <h2 class="section-title fade-in" data-t="recommendations.title"></h2>
     <div class="section-divider fade-in"><span class="divider-icon">🌸</span></div>
 
-    <!-- ══ IMAGEN 5 – RECOMENDACIONES (Luna) ══
-         Reemplaza IMG_SRC_LUNA con tu ruta real.
-         Sugerencia: foto o ilustración de Luna (la hija) sonriendo,
-         fondo suave o exterior. Se muestra como medallón circular.
-         Dimensiones: 600×600 px  ·  Ratio 1:1  ·  Max 180 KB -->
     <div class="section-img-wrap fade-in section-img-medallion">
       <!-- <img src="IMG_SRC_LUNA" alt="Luna" class="section-img" /> -->
       <div class="section-img-placeholder">
@@ -343,25 +765,15 @@
 
 <!-- ════════════════════════════════════════════════════
      SECCIÓN 6: DRESS CODE
-     IMAGEN: Ilustración de moda / estilo formal de la boda
-             Sugerencia: composición de siluetas (traje + vestido)
-             en tonos de la paleta de la boda, estilo ukiyo-e plano
-             Formato: horizontal apaisado · Ratio 3:1 (tipo banner)
-             Dimensiones: 1200×400 px  ·  Max 200 KB  ·  PNG con transparencia
-             Se ubica como banner decorativo sobre la grilla de items
+     IMAGEN pendiente: banner de siluetas, 1200×400 px (3:1)
 ════════════════════════════════════════════════════ -->
-<section class="section" id="dresscode" data-section="5" data-label="Dress Code">
+<section class="section" id="dresscode" data-section="5">
 
   <div class="section-inner">
-    <p class="section-label fade-in">Vístete para la ocasión</p>
-    <h2 class="section-title fade-in">Dress Code</h2>
+    <p class="section-label fade-in" data-t="dresscode.label"></p>
+    <h2 class="section-title fade-in" data-t="dresscode.title"></h2>
     <div class="section-divider fade-in"><span class="divider-icon">✦</span></div>
 
-    <!-- ══ IMAGEN 6 – DRESS CODE ══
-         Reemplaza IMG_SRC_DRESSCODE con tu ruta real.
-         Sugerencia: ilustración de siluetas elegantes (traje oscuro + vestido),
-         estilo ukiyo-e plano, en colores de la paleta (azul, verde oliva, rosa).
-         Dimensiones: 1200×400 px  ·  Ratio 3:1 banner  ·  Max 200 KB  ·  PNG -->
     <div class="section-img-wrap fade-in section-img-banner">
       <!-- <img src="IMG_SRC_DRESSCODE" alt="Dress code" class="section-img" /> -->
       <div class="section-img-placeholder">
@@ -370,15 +782,14 @@
       </div>
     </div>
 
-    <p class="section-body fade-in" id="dresscode-main"></p>
+    <p class="section-body fade-in" data-t="dresscode.main"></p>
 
     <div class="dress-grid fade-in" id="dress-grid">
       <!-- Generado por JS -->
     </div>
 
-    <p class="section-body fade-in" style="margin-top:1rem;font-size:.82rem;opacity:.75" id="dresscode-note"></p>
+    <p class="section-body fade-in" style="margin-top:1rem;font-size:.82rem;opacity:.75" data-t="dresscode.note"></p>
     <img src="./assets/rosas-tl.png" alt="" aria-hidden="true" class="corner-img tl">
-    <img src="./assets/rosas-br.png" alt="" aria-hidden="true" class="corner-img br">
     <img src="./assets/rosas-b.png"  alt="" aria-hidden="true" class="corner-img b">
   </div>
 
@@ -386,71 +797,100 @@
 
 <!-- ════════════════════════════════════════════════════
      SECCIÓN 7: QRs – RECUERDOS
-     IMAGEN: Ilustración de pareja en playa o bosque (casual / viaje)
-             Formato: horizontal 16:9
-             Dimensiones: 1200×675 px  ·  Max 300 KB  ·  JPG
-             Referencia de estilo: imagen 3 paneles superiores (playa / ciudad)
-             Se ubica como encabezado de la sección
+     Sin rosas inferiores: el humo del footer las cubriría.
 ════════════════════════════════════════════════════ -->
-<section class="section" id="qrs" data-section="6" data-label="Recuerdos">
+<section class="section" id="qrs" data-section="6">
 
   <div class="section-inner">
-    <p class="section-label fade-in">Comparte este momento</p>
-    <h2 class="section-title fade-in">Recuerdos</h2>
+    <p class="section-label fade-in" data-t="qrs.label"></p>
+    <h2 class="section-title fade-in" data-t="qrs.title"></h2>
     <div class="section-divider fade-in"><span class="divider-icon">📷</span></div>
 
-    <!-- ══ IMAGEN 7 – RECUERDOS ══
-         Reemplaza IMG_SRC_RECUERDOS con tu ruta real.
-         Sugerencia: ilustración de la pareja en ambiente relajado (playa, ciudad,
-         bosque), estilo ukiyo-e / ghibli, tonos vibrantes. Muestra su historia.
-         Dimensiones: 1200×675 px  ·  Ratio 16:9  ·  Max 300 KB  ·  JPG -->
     <div class="section-img-wrap fade-in">
-      <img src="./assets/foto3.png" alt="Recuerdos" class="section-img" />
+      <img src="./assets/foto1.png" alt="Recuerdos" class="section-img" />
       <div class="section-img-placeholder">
         <span class="img-ph-icon">📸</span>
         <span class="img-ph-label">Pareja en su historia<br><small>1200 × 675 px · ratio 16:9</small></span>
       </div>
     </div>
 
-    <p class="section-body fade-in" id="qr-intro"></p>
+    <p class="section-body fade-in" data-t="qrs.intro"></p>
 
     <div class="qr-grid fade-in" id="qr-grid">
       <!-- Generado por JS -->
     </div>
     <img src="./assets/rosas-tl.png" alt="" aria-hidden="true" class="corner-img tl">
     <img src="./assets/rosas-tr.png" alt="" aria-hidden="true" class="corner-img tr">
-    <img src="./assets/rosas-bl.png" alt="" aria-hidden="true" class="corner-img bl">
-    <img src="./assets/rosas-br.png" alt="" aria-hidden="true" class="corner-img br">
   </div>
 
 </section>
 
 <!-- ════════════════════════════════════════════════════
-     FOOTER
+     FOOTER (humo de assets/footer.png, como en index.html)
 ════════════════════════════════════════════════════ -->
-<footer id="footer">
-  <div class="footer-names">Camilo &amp; Maritza</div>
-  <p style="font-family:var(--font-accent);font-style:italic;color:rgba(245,239,230,.55);font-size:.9rem;margin-bottom:.8rem" id="footer-date-text"></p>
+<div class="footer-wrap">
+  <footer class="teaser-footer">
+    <div class="ts-footer-row">
+      <img src="./assets/bugambilia.png" alt="" aria-hidden="true" class="ts-date-flower ts-tree">
+      <p><span data-t="footerSignature"></span><span class="heart ts-heart"> ♥ </span></p>
+    </div>
+  </footer>
+</div>
 
-  <div class="footer-contacts" id="footer-contacts">
-    <!-- Generado por JS -->
-  </div>
-
-  <div class="section-divider" style="max-width:200px;margin:1rem auto">
-    <span style="color:rgba(245,239,230,.2)">✦</span>
-  </div>
-
-  <p class="footer-made">Hecho con <span class="heart">♥</span> por Camilo Pérez</p>
-</footer>
+<!-- Indicador flotante "más abajo" -->
+<div id="scroll-hint" aria-hidden="true">
+  <svg class="scroll-hint-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  <svg class="scroll-hint-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+</div>
 
 <!-- ════════════════════════════════════════════════════
      JAVASCRIPT
+     Orden importante: config → guest → init (construye el menú y los textos) → countdown → common → script de página
 ════════════════════════════════════════════════════ -->
 <script src="config.js"></script>
 <script src="js/guest.js"></script>
 <script src="js/init.js"></script>
 <script src="js/countdown.js"></script>
 <script src="js/common.js"></script>
+<script>
+  // Los textos, fechas, lugares e invitado los pone js/init.js desde config.js
+  // y guests.json; este script solo maneja la portada y la flecha de scroll.
+
+  // Portada "toca para abrir": el click/tap real habilita la reproducción
+  // de la música de fondo (los navegadores bloquean el autoplay con sonido
+  // sin una interacción explícita del usuario).
+  const coverScreen = document.getElementById('cover-screen');
+
+  function openInvitation() {
+    coverScreen.classList.add('cover-hidden');
+    document.body.classList.remove('cover-active');
+    if (window.startWeddingAudio) {
+      window.startWeddingAudio();
+    }
+  }
+
+  coverScreen.addEventListener('click', openInvitation, { once: true });
+  coverScreen.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openInvitation();
+    }
+  }, { once: true });
+
+  // Flecha "más abajo": se oculta al llegar al final de la página, o de una
+  // vez si todo el contenido ya cabe en la pantalla (nada que desplazar).
+  const scrollHint = document.getElementById('scroll-hint');
+
+  function updateScrollHint() {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight > 40;
+    const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 40;
+    scrollHint.classList.toggle('scroll-hint-hidden', !scrollable || atBottom);
+  }
+
+  updateScrollHint();
+  window.addEventListener('scroll', updateScrollHint, { passive: true });
+  window.addEventListener('resize', updateScrollHint);
+</script>
 
 </body>
 </html>

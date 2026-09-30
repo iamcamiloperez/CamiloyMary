@@ -70,7 +70,7 @@ const sectionObserver = new IntersectionObserver(function(entries) {
 			el.classList.add('visible');
 		});
 	});
-}, { threshold: 0.4 });
+}, { threshold: 0.15 });
 
 sections.forEach(function(s) {
 	sectionObserver.observe(s);
