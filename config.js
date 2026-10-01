@@ -45,7 +45,7 @@ const WEDDING = {
 	   weddingDateDisplay → fecha completa (lectores de pantalla)
 	   weddingLocation    → ciudad/lugar que va bajo la fecha
 	────────────────────────────────────────────────── */
-	weddingDateISO:     '2026-11-14T17:00:00',
+	weddingDateISO:     '2026-11-14T15:00:00',
 	weddingDateDisplay: 'Sábado, 14 de noviembre de 2026',
 	weddingLocation:    'Tibasosa, Boyacá',
 
@@ -71,8 +71,8 @@ const WEDDING = {
 	   además una versión "anonymous" para cuando la URL no trae código. */
 	book: {
 		coverFor: {
-			single: 'Una historia escrita para ti',
-			plural: 'Una historia escrita para ustedes',
+			single: 'Una historia escrita con amor',
+			plural: 'Una historia escrita con amor',
 		},
 		next:        'pasa la página',
 		prev:        'volver',
@@ -167,7 +167,7 @@ const WEDDING = {
 	ceremony: {
 		label:   'Aquí es donde decimos «sí»',
 		title:   'Ceremonia',
-		place:   'Nombre de la Iglesia / Capilla',
+		place:   'Capilla de la Inmaculada',
 		address: 'Dirección de la ceremonia, Bogotá',
 		date:    'Sábado, 14 de noviembre de 2026',
 		time:    '3:00 p.m.',
@@ -177,7 +177,7 @@ const WEDDING = {
 		},
 		doors:    'Las puertas abren a las 2:30 p.m. y nosotros ya estaremos nerviosos.',
 		mapLabel: 'Ver en el mapa',
-		mapLink:  'LINK_MAPA_CEREMONIA',
+		mapLink:  'https://maps.app.goo.gl/BfYg8MU2chfD7YaQ8',
 	},
 
 	/* ──────────────────────────────────────────────────
@@ -186,17 +186,17 @@ const WEDDING = {
 	reception: {
 		label:   'Después del «sí», viene la fiesta',
 		title:   'Recepción',
-		place:   'Nombre del salón / hacienda',
-		address: 'Dirección de la recepción, Bogotá',
+		place:   'Hacienda Bella Luna Campestre',
+		address: 'Km 1 via Sogamoso - Tibasosa',
 		date:    'Sábado, 14 de noviembre de 2026',
-		time:    '5:00 p.m. – 2:00 a.m.',
-		extraTitle: 'Comida rica, buena música y cero excusas para no bailar',
+		time:    '5:00 p.m. – 11:00 p.m.',
+		extraTitle: 'Un espacio para pasarla bien sin excusas',
 		extraText: {
-			single: 'Te esperamos con ganas de bailar hasta que el cuerpo aguante.',
-			plural: 'Los esperamos con ganas de bailar hasta que el cuerpo aguante.',
+			single: 'Te esperamos con la mejor actitud para construir momentos unicos.',
+			plural: 'Los esperamos con la mejor actitud para construir momentos unicos.',
 		},
 		mapLabel: 'Ver en el mapa',
-		mapLink:  'LINK_MAPA_RECEPCION',
+		mapLink:  'https://maps.app.goo.gl/ckTeEarYySX4z8bs5',
 	},
 
 	/* ──────────────────────────────────────────────────
@@ -208,10 +208,10 @@ const WEDDING = {
 			single: 'Confirma tu\nasistencia',
 			plural: 'Confirmen su\nasistencia',
 		},
-		deadline: '31 de enero de 2026',
+		deadline: '14 de Octubre de 2026',
 		message: {
-			single: 'Confirma tu asistencia antes del **%deadline%**, así no nos toca adivinar.\nEn el formulario también está todo sobre transporte, comida, bebidas y hospedaje.',
-			plural: 'Confirmen su asistencia antes del **%deadline%**, así no nos toca adivinar.\nEn el formulario también está todo sobre transporte, comida, bebidas y hospedaje.',
+			single: 'Confirma tu asistencia antes del **%deadline%**, así no nos toca adivinar.',
+			plural: 'Confirmen su asistencia antes del **%deadline%**, así no nos toca adivinar.',
 		},
 		buttonLabel: 'Confirmar asistencia',
 		formLink:    'LINK_FORMULARIO_ASISTENCIA',
@@ -243,8 +243,8 @@ const WEDDING = {
 				plural: 'Confirmen con tiempo: así lo organizamos todo con amor y con una hoja de Excel que ya da miedo.',
 			} },
 			{ icon: '🚗', text: {
-				single: 'En el formulario está el paso a paso de transporte, comida, bebidas y hospedaje. Léelo, que ahí está todo.',
-				plural: 'En el formulario está el paso a paso de transporte, comida, bebidas y hospedaje. Léanlo, que ahí está todo.',
+				single: 'Si tienes cualquier duda acerca de transporte, comida, bebidas, etc. No dudes en escribirnos.',
+				plural: 'Si tienen cualquier duda acerca de transporte, comida, bebidas, etc. No duden en escribirnos',
 			} },
 			{ icon: '📵', text: 'La ceremonia es un momento íntimo: celular en silencio y a disfrutar el presente. Prometemos que valdrá la pena.' },
 			{ icon: '🌸', text: {
@@ -274,8 +274,8 @@ const WEDDING = {
 				icon:  '🤵',
 				title: 'Caballeros',
 				desc: {
-					single: 'Traje formal o smoking. Corbata o pajarita: tú eliges, pero que se note el esfuerzo.',
-					plural: 'Traje formal o smoking. Corbata o pajarita: ustedes eligen, pero que se note el esfuerzo.',
+					single: 'Traje formal sin chaleco. Tú eliges, pero que se note el esfuerzo.',
+					plural: 'Traje formal sin chaleco. Ustedes eligen, pero que se note el esfuerzo.',
 				},
 				swatches: ['#1a2a4a', '#3a3a3a', '#5c4a38', '#4a6f8a'],
 			},
@@ -284,22 +284,7 @@ const WEDDING = {
 				title:    'Damas',
 				desc:     'Vestido largo o midi formal, en colores suaves y elegantes. Que brille, pero sin opacar a la novia.',
 				swatches: ['#d4798a', '#7b9db8', '#7a8c5c', '#b08d57', '#c9b8d0'],
-			},
-			{
-				icon:     '👦',
-				title:    'Niños',
-				desc:     'Formales, pero cómodos: tienen que poder correr, saltar y sobrevivir a la pista de baile.',
-				swatches: ['#4a6f8a', '#7a8c5c', '#b08d57'],
-			},
-			{
-				icon:  '💃',
-				title: 'Jovencitas',
-				desc: {
-					single: 'Vestido elegante y sin blanco. Lo demás es tuyo: ¡juega con el color!',
-					plural: 'Vestido elegante y sin blanco. Lo demás es de ustedes: ¡jueguen con el color!',
-				},
-				swatches: ['#d4798a', '#7b9db8', '#c9b8d0', '#7a8c5c'],
-			},
+			}
 		],
 	},
 

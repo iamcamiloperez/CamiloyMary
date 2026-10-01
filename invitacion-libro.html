@@ -58,11 +58,9 @@
         <div class="back-heart" aria-hidden="true"><span class="ts-heart">♥</span></div>
         <button class="back-restart" id="book-restart"><span data-t="book.backToStart"></span> ↺</button>
       </div>
+      <p class="back-names" data-t="footerSignature"></p>
       <div class="back-footer">
-        <div class="ts-footer-row">
-          <img src="./assets/bugambilia.png" alt="" aria-hidden="true" class="ts-tree">
-          <p><span data-t="footerSignature"></span><span class="heart ts-heart"> ♥ </span></p>
-        </div>
+        <img src="./assets/bugambilia.png" alt="" aria-hidden="true" class="back-tree">
       </div>
     </div>
 
@@ -102,6 +100,7 @@
 
             <p class="chapter-num prologue-num fade-in" data-t="book.prologue"></p>
             <h1 class="once-upon fade-in" data-t="book.onceUpon"></h1>
+            <span class="page-gap" aria-hidden="true"></span>
             <p class="story-text fade-in" data-t="book.prologueOpen"></p>
             <p class="story-text fade-in" data-t="book.prologueCouple"></p>
 
@@ -115,6 +114,7 @@
             <!-- js/init.js lo necesita; en el libro el nombre va dentro del prólogo -->
             <p id="guest-greeting" hidden></p>
 
+            <span class="page-gap" aria-hidden="true"></span>
             <p class="story-lead story-lead-date fade-in" data-t="book.dateLead"></p>
             <div class="ts-date-wrap fade-in">
               <img src="./assets/moon.png" alt="" aria-hidden="true" class="ts-date-flower">
@@ -128,6 +128,7 @@
               <img src="./assets/star.png" alt="" aria-hidden="true" class="ts-date-flower">
             </div>
 
+            <span class="page-gap" aria-hidden="true"></span>
             <p class="story-lead fade-in" data-t="book.countdownLead"></p>
             <div class="countdown fade-in" id="countdown">
               <div class="countdown-unit"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label" data-t="countdown.days"></span></div>
@@ -138,6 +139,7 @@
               <span class="countdown-sep">·</span>
               <div class="countdown-unit"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-label" data-t="countdown.seconds"></span></div>
             </div>
+            <span class="page-gap" aria-hidden="true"></span>
           </div>
         </section>
       </div></div>
@@ -254,8 +256,10 @@
             <p class="chapter-note fade-in" data-t="rsvp.label"></p>
             <p class="chapter-lead fade-in" data-t="book.leads.asistencia"></p>
 
+            <span class="page-gap" aria-hidden="true"></span>
             <p class="section-body fade-in" data-t="rsvp.message"></p>
 
+            <span class="page-gap" aria-hidden="true"></span>
             <div class="section-img-wrap fade-in section-img-circle">
               <img src="./assets/foto4.png" alt="Confirma tu asistencia" class="section-img" />
               <div class="section-img-placeholder">
@@ -264,10 +268,12 @@
               </div>
             </div>
 
+            <span class="page-gap" aria-hidden="true"></span>
             <a data-href="rsvp.formLink" href="#" class="btn btn-glow fade-in" target="_blank" rel="noopener">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
               <span data-t="rsvp.buttonLabel"></span>
             </a>
+            <span class="page-gap" aria-hidden="true"></span>
             <img src="./assets/rosas-tl.png" alt="" aria-hidden="true" class="corner-img tl">
             <img src="./assets/rosas-tr.png" alt="" aria-hidden="true" class="corner-img tr">
           </div>

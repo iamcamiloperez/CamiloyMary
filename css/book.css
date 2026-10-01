@@ -202,7 +202,7 @@ body::before { display: none; }
 	align-items: center;
 	justify-content: center;
 	gap: .6rem;
-	padding: 2rem 1.5rem 0;
+	padding: 1.5rem 1.5rem 0;
 }
 
 .back-heart { color: var(--color-rose); font-size: 1.6rem; }
@@ -223,35 +223,29 @@ body::before { display: none; }
 
 .back-restart:hover { background: var(--color-gold); color: #fff; }
 
+/* Cierre: nombres grandes y la bugambilia al pie, sobre el humo del footer */
+.back-names {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: 0 1rem;
+	font-family: var(--font-script);
+	font-size: clamp(2.2rem, 11.5vw, 2.9rem);
+	line-height: 1.15;
+	color: var(--color-ink);
+}
+
 .back-footer {
 	position: relative;
-	aspect-ratio: 1024 / 491;
-	display: flex;
-	align-items: flex-end;
-	justify-content: center;
-	padding-bottom: 1.4rem;
-	background: url('../assets/footer.png') top center / 100% 100% no-repeat;
+	background: url('../assets/footer.png') bottom center / 100% auto no-repeat;
 }
 
-.back-footer p {
-	font-family: var(--font-script);
-	font-size: clamp(1.1rem, 4.5vw, 1.4rem);
-	color: var(--color-paper);
-}
-
-.back-footer .heart { color: var(--color-rose-pale); }
-
-.ts-footer-row {
-	display: flex;
-	align-items: flex-end;
-	margin-left: -20px;
-}
-
-.ts-tree {
-	width: 72px;
-	height: auto;
-	margin-right: -8px;
-	margin-bottom: -18px;
+.back-tree {
+	display: block;
+	width: 50%;
+	margin: .2rem auto -.7rem;
 }
 
 /* p8: "…y vivieron felices para siempre" / Fin */
@@ -268,8 +262,10 @@ body::before { display: none; }
 
 .fin-happy {
 	font-family: var(--font-script);
-	font-size: clamp(1.7rem, 7vw, 2.3rem);
-	line-height: 1.2;
+	max-width: 6.5em;
+	font-size: clamp(2.4rem, 11vw, 3rem);
+	line-height: 1.15;
+	text-wrap: balance;
 	color: var(--color-rose);
 }
 
@@ -288,7 +284,7 @@ body::before { display: none; }
 	color: var(--color-ink-soft);
 }
 
-.fin-heart { margin-top: .4rem; color: var(--color-rose); font-size: 1.5rem; }
+.fin-heart { margin-top: .6rem; color: var(--color-rose); font-size: 2.8rem; line-height: 1; }
 
 
 /* ─────────────────────────────────────────────────────
@@ -347,7 +343,11 @@ body::before { display: none; }
 	-webkit-backface-visibility: hidden;
 }
 
-.leaf:not(.prep):not(.turning):not(.turned):not(.peek) .leaf-back { visibility: hidden; }
+/* En reposo solo se pinta la cara que mira al lector. En móviles
+   backface-visibility no oculta las capas internas (scroll, imágenes,
+   animaciones) y se transparentaba la otra cara de la hoja. */
+.leaf:not(.turning):not(.turned) .leaf-back,
+.leaf.turned:not(.turning) .leaf-front { visibility: hidden; }
 
 /* Frente = página derecha (lomo a la izquierda) */
 .leaf-front {
@@ -970,7 +970,7 @@ body::before { display: none; }
 .story-lead-date::after { background: linear-gradient(to left, transparent, var(--color-gold)); }
 
 /* Prólogo compacto para que quepa en una pantalla de móvil */
-#save-the-date .section-img-hero { max-height: 16svh; }
+#save-the-date .section-img-hero { max-height: 21svh; }
 #save-the-date .ts-date-wrap     { margin-top: 0; }
 #save-the-date .ts-daynum        { font-size: 2.3rem; }
 #save-the-date .ts-month         { font-size: .92rem; }
@@ -978,6 +978,16 @@ body::before { display: none; }
 #save-the-date .ts-location      { margin-top: .15rem; }
 #save-the-date .countdown        { margin-top: .2rem; }
 #save-the-date .couple-names     { font-size: clamp(1.8rem, 8vw, 2.3rem); padding-top: 0; }
+
+/* Separadores del Prólogo y Asistencia: crecen con el alto libre de la
+   página para repartir el contenido, sin bajar del espaciado normal */
+.page-gap {
+	flex: 1 1 0;
+	min-height: .3rem;
+	max-height: 3rem;
+}
+
+#asistencia .section-img-circle { max-width: min(190px, 25svh); }
 
 #guest-greeting {
 	min-height: 1.2em;
