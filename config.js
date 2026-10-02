@@ -168,7 +168,7 @@ const WEDDING = {
 		label:   'Aquí es donde decimos «sí»',
 		title:   'Ceremonia',
 		place:   'Capilla de la Inmaculada',
-		address: 'Dirección de la ceremonia, Bogotá',
+		address: 'Tibasosa, Boyacá',
 		date:    'Sábado, 14 de noviembre de 2026',
 		time:    '3:00 p.m.',
 		arrival: {
@@ -187,7 +187,7 @@ const WEDDING = {
 		label:   'Después del «sí», viene la fiesta',
 		title:   'Recepción',
 		place:   'Hacienda Bella Luna Campestre',
-		address: 'Km 1 via Sogamoso - Tibasosa',
+		address: 'Km 1.5 via Sogamoso - Tibasosa',
 		date:    'Sábado, 14 de noviembre de 2026',
 		time:    '5:00 p.m. – 11:00 p.m.',
 		extraTitle: 'Un espacio para pasarla bien sin excusas',

@@ -36,6 +36,12 @@
 	const DUST_COUNT      = 16;
 	const DUST_LIFE_MS    = 2200;
 	const SCROLL_SLACK_PX = 12;
+	const AUTO_BASE_MS    = 7000;   // pase automático: tiempo fijo por página…
+	const AUTO_WORD_MS    = 320;    // …más este tiempo por palabra visible (≈ lectura pausada)
+	const AUTO_MIN_MS     = 10000;
+	const AUTO_MAX_MS     = 32000;
+	const AUTO_STEP_MIN_MS = 6000;  // mínimo entre bajadas automáticas en páginas largas
+	const AUTO_SCROLL_FRACTION = 0.85;
 	const GUTTER_PX       = 10;     // margen a cada lado en móvil (deja asomar la página vecina)
 	const MOBILE_MAX_W    = 480;
 	const DESKTOP_PAGE_W  = 440;
@@ -56,6 +62,7 @@
 	const pageNumEl   = document.getElementById('page-num');
 	const swipeHintEl = document.getElementById('swipe-hint');
 	const bookmark    = document.getElementById('bookmark');
+	const turnNextEl  = document.getElementById('turn-next');
 	const desktopMq   = window.matchMedia('(min-width: 900px)');
 	const reduced     = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -72,6 +79,7 @@
 	let pageW         = 0;
 	let busy          = false;
 	let peekTimer     = null;
+	let autoTimer     = null;
 	let audioStarted  = false;
 	let suppressClick = false;
 	let pointerStart  = null;
@@ -279,6 +287,7 @@
 		busy = true;
 		stage.classList.add('is-busy');
 		stopPeek();
+		stopAuto();
 
 		const fromTurned = turnedFor(k);
 		const toTurned   = turnedFor(next);
@@ -308,6 +317,7 @@
 			stage.classList.remove('is-busy');
 			updateSwipeHint();
 			schedulePeek();
+			scheduleAuto();
 		}, PREP_MS + duration + 30);
 	}
 
@@ -385,6 +395,88 @@
 			peekTimer = window.setTimeout(doPeek, PEEK_IDLE_MS);
 		}
 	}
+
+	/* ── Pase automático si nadie pasa la página ──────
+	   Espera un tiempo según cuánto texto se ve; en páginas
+	   largas primero baja de a una pantalla y al llegar al
+	   final pasa la hoja. Cualquier toque, tecla o rueda del
+	   ratón reinicia la espera. No arranca en la tapa (la
+	   música necesita el gesto de abrirla) y para al final. */
+
+	function scrollersInView() {
+		return visibleFaces(k).slice().reverse().map(function(face) {
+			return face.querySelector('.page-scroll');
+		}).filter(Boolean);
+	}
+
+	function pendingScroller() {
+		return scrollersInView().find(function(scroller) {
+			return scroller.scrollHeight - scroller.clientHeight - scroller.scrollTop > SCROLL_SLACK_PX;
+		});
+	}
+
+	function readingTime() {
+		const words = visibleFaces(k).reduce(function(total, face) {
+			const text = face.innerText.trim();
+			return total + (text ? text.split(/\s+/).length : 0);
+		}, 0);
+		return Math.min(AUTO_MAX_MS, Math.max(AUTO_MIN_MS, AUTO_BASE_MS + words * AUTO_WORD_MS));
+	}
+
+	// Si la página se lee en varias pantallas, el tiempo se reparte entre ellas
+	function autoDelay() {
+		const screens = scrollersInView().reduce(function(total, scroller) {
+			return total + Math.max(1, Math.ceil(scroller.scrollHeight / scroller.clientHeight)) - 1;
+		}, 1);
+		return Math.max(AUTO_STEP_MIN_MS, Math.round(readingTime() / screens));
+	}
+
+	// La barrita del botón "pasa la página" se llena mientras corre la espera
+	function showAutoProgress(ms) {
+		turnNextEl.classList.remove('auto-run');
+		if (ms > 0) {
+			turnNextEl.style.setProperty('--auto-ms', ms + 'ms');
+			void turnNextEl.offsetWidth;
+			turnNextEl.classList.add('auto-run');
+		}
+	}
+
+	function stopAuto() {
+		window.clearTimeout(autoTimer);
+		showAutoProgress(0);
+	}
+
+	function scheduleAuto() {
+		stopAuto();
+		if (k > 0 && k < LAST && !document.hidden) {
+			const ms = autoDelay();
+			autoTimer = window.setTimeout(doAuto, ms);
+			showAutoProgress(ms);
+		}
+	}
+
+	function doAuto() {
+		const scroller = pendingScroller();
+		if (busy || bookmark.classList.contains('open')) {
+			scheduleAuto();
+		} else if (scroller) {
+			scroller.scrollBy({ top: Math.round(scroller.clientHeight * AUTO_SCROLL_FRACTION), behavior: reduced ? 'auto' : 'smooth' });
+			scheduleAuto();
+		} else {
+			stopAuto();
+			step(1);
+		}
+	}
+
+	['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function(type) {
+		document.addEventListener(type, function() {
+			if (k > 0) {
+				scheduleAuto();
+			}
+		}, { passive: true });
+	});
+
+	document.addEventListener('visibilitychange', scheduleAuto);
 
 	/* ── Polvo de hada al pasar la hoja ──────────────── */
 
@@ -477,7 +569,7 @@
 		}
 	});
 
-	document.getElementById('turn-next').addEventListener('click', nextPage);
+	turnNextEl.addEventListener('click', nextPage);
 	document.getElementById('turn-prev').addEventListener('click', prevPage);
 	document.getElementById('book-restart').addEventListener('click', function() {
 		goTo(1);
