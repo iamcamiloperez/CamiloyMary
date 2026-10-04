@@ -189,7 +189,7 @@ const WEDDING = {
 		place:   'Hacienda Bella Luna Campestre',
 		address: 'Km 1.5 via Sogamoso - Tibasosa',
 		date:    'Sábado, 14 de noviembre de 2026',
-		time:    '5:00 p.m. – 11:00 p.m.',
+		time:    '5:00 p.m.',
 		extraTitle: 'Un espacio para pasarla bien sin excusas',
 		extraText: {
 			single: 'Te esperamos con la mejor actitud para construir momentos unicos.',
@@ -208,13 +208,13 @@ const WEDDING = {
 			single: 'Confirma tu\nasistencia',
 			plural: 'Confirmen su\nasistencia',
 		},
-		deadline: '14 de Octubre de 2026',
+		deadline: '11 de Octubre de 2026',
 		message: {
-			single: 'Confirma tu asistencia antes del **%deadline%**, así no nos toca adivinar.',
-			plural: 'Confirmen su asistencia antes del **%deadline%**, así no nos toca adivinar.',
+			single: 'Confirma tu asistencia antes del **%deadline%** para guardar tu lugar. Si no recibimos tu confirmación, entenderemos que no podrás acompañarnos.',
+			plural: 'Confirmen su asistencia antes del **%deadline%**, así no nos toca adivinar. Si no recibimos la confirmación, entenderemos que no podrán acompañarnos.',
 		},
 		buttonLabel: 'Confirmar asistencia',
-		formLink:    'LINK_FORMULARIO_ASISTENCIA',
+		formLink:    'https://forms.gle/cKBX97WPtoqGyfmP7',
 		help: {
 			single: 'Si tienes dudas, escríbenos sin pena ↓',
 			plural: 'Si tienen dudas, escríbannos sin pena ↓',
@@ -234,6 +234,11 @@ const WEDDING = {
 				single: 'Llega temprano: la ceremonia empieza puntual y no queremos que te pierdas ni el primer «sí».',
 				plural: 'Lleguen temprano: la ceremonia empieza puntual y no queremos que se pierdan ni el primer «sí».',
 			} },
+			
+			{ icon: '🥂', text: {
+				single: 'Esta vez celebramos solo entre adultos. Deja a los pequeños en buenas manos y ven a disfrutar con nosotros.',
+				plural: 'Esta vez celebramos solo entre adultos. Deja a los pequeños en buenas manos y ven a disfrutar con nosotros.',
+			} },
 			{ icon: '📸', text: {
 				single: 'Vive cada momento con todos los sentidos. Es lo único que te pedimos (bueno, y que bailes).',
 				plural: 'Vivan cada momento con todos los sentidos. Es lo único que les pedimos (bueno, y que bailen).',
@@ -241,10 +246,6 @@ const WEDDING = {
 			{ icon: '✅', text: {
 				single: 'Confirma con tiempo: así lo organizamos todo con amor y con una hoja de Excel que ya da miedo.',
 				plural: 'Confirmen con tiempo: así lo organizamos todo con amor y con una hoja de Excel que ya da miedo.',
-			} },
-			{ icon: '🚗', text: {
-				single: 'Si tienes cualquier duda acerca de transporte, comida, bebidas, etc. No dudes en escribirnos.',
-				plural: 'Si tienen cualquier duda acerca de transporte, comida, bebidas, etc. No duden en escribirnos',
 			} },
 			{ icon: '📵', text: 'La ceremonia es un momento íntimo: celular en silencio y a disfrutar el presente. Prometemos que valdrá la pena.' },
 			{ icon: '🌸', text: {
@@ -260,30 +261,28 @@ const WEDDING = {
 	────────────────────────────────────────────────── */
 	dresscode: {
 		label: {
-			single: 'Elegante, pero que puedas bailar',
-			plural: 'Elegantes, pero que puedan bailar',
+			single: 'queremos que te veas increíble.',
+			plural: 'queremos que se vean increíbles.',
 		},
 		title: 'Dress Code',
 		main: {
-			single: 'Formal-elegante, pero cómodo: queremos que te veas increíble y que aguantes bailando toda la noche.',
-			plural: 'Formal-elegante, pero cómodo: queremos que se vean increíbles y que aguanten bailando toda la noche.',
+			single: 'Una noche para vestir de gala ',
+			plural: 'Una noche para vestir de gala',
 		},
-		note: '🚫 Nada de blanco, por favor. Y si la ceremonia es al aire libre, ojo con los tacones muy altos: el pasto no perdona.',
+		note: 'Usa zapatos comodos y un buen abrigo',
 		items: [
 			{
 				icon:  '🤵',
 				title: 'Caballeros',
 				desc: {
-					single: 'Traje formal sin chaleco. Tú eliges, pero que se note el esfuerzo.',
-					plural: 'Traje formal sin chaleco. Ustedes eligen, pero que se note el esfuerzo.',
-				},
-				swatches: ['#1a2a4a', '#3a3a3a', '#5c4a38', '#4a6f8a'],
+					single: 'Traje formal sin chaleco. Tú eliges, pero que se note el esfuerzo. 🚫 Nos reservamos el color Azul Noche.',
+					plural: 'Traje formal sin chaleco. Ustedes eligen, pero que se note el esfuerzo. 🚫 Nos reservamos el color Azul Noche.',
+				}
 			},
 			{
 				icon:     '👗',
 				title:    'Damas',
-				desc:     'Vestido largo o midi formal, en colores suaves y elegantes. Que brille, pero sin opacar a la novia.',
-				swatches: ['#d4798a', '#7b9db8', '#7a8c5c', '#b08d57', '#c9b8d0'],
+				desc:     'Vestido largo y elegante. Que brille, pero sin opacar a la novia. 🚫 Nos reservamos los colores Blanco, Negro y Azul Noche.'
 			}
 		],
 	},
@@ -307,7 +306,7 @@ const WEDDING = {
 					single: 'Agrega tus canciones a la lista. Cuéntanos cuál es tu favorita… y prepárate para bailarla.',
 					plural: 'Agreguen sus canciones a la lista. Cuéntennos cuál es su favorita… y prepárense para bailarla.',
 				},
-				link: 'LINK_JAM_PLAYLIST',
+				link: 'https://open.spotify.com/socialsession/2EcxvUxVPcbHxciFSnn4xE?si=OdMQNFw1TQGdgIKK7oL9Yg&utm_source=whatsapp',
 			},
 			{
 				icon:  '📷',
@@ -316,7 +315,7 @@ const WEDDING = {
 					single: 'Sube tus fotos del día. Todos podremos verlas y descargarlas (hasta las que salieron movidas).',
 					plural: 'Suban sus fotos del día. Todos podremos verlas y descargarlas (hasta las que salieron movidas).',
 				},
-				link: 'LINK_ALBUM_FOTOS',
+				link: 'https://photos.app.goo.gl/yc5DDMdc86Xp3qZ66',
 			},
 			{
 				icon:  '💌',
@@ -325,7 +324,7 @@ const WEDDING = {
 					single: 'Déjanos un mensaje, un consejo o simplemente tu cariño. Prometemos leerlo todo.',
 					plural: 'Déjennos un mensaje, un consejo o simplemente su cariño. Prometemos leerlo todo.',
 				},
-				link: 'LINK_BUZON_DESEOS',
+				link: 'https://forms.gle/Q8kvUNysCzyRRGPA7',
 			},
 		],
 	},

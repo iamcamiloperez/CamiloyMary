@@ -162,19 +162,22 @@
 		const dressGrid = document.getElementById('dress-grid');
 		dressGrid.textContent = '';
 		WEDDING.dresscode.items.forEach(function(item) {
-			const palette = createEl('div', 'color-palette');
-			item.swatches.forEach(function(color) {
-				const swatch = createEl('div', 'color-swatch');
-				swatch.style.background = color;
-				swatch.title = color;
-				palette.appendChild(swatch);
-			});
-
 			const div = createEl('div', 'dress-item');
 			div.appendChild(createEl('span', 'dress-icon', item.icon));
 			div.appendChild(createEl('span', 'dress-title', pick(item.title, guest)));
 			div.appendChild(createEl('span', 'dress-desc', pick(item.desc, guest)));
-			div.appendChild(palette);
+
+			if (item.swatches && item.swatches.length) {
+				const palette = createEl('div', 'color-palette');
+				item.swatches.forEach(function(color) {
+					const swatch = createEl('div', 'color-swatch');
+					swatch.style.background = color;
+					swatch.title = color;
+					palette.appendChild(swatch);
+				});
+				div.appendChild(palette);
+			}
+
 			dressGrid.appendChild(div);
 		});
 	}
